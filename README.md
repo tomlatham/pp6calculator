@@ -14,3 +14,7 @@ Installation
 ============
 TODO
 
+References
+==========
+- [MPAGS PP6 Course Page](http://www2.warwick.ac.uk/fac/sci/physics/research/epp/resources/teaching/software_development_2012)
+- [GitHub](http://github.com)
