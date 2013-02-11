@@ -1,6 +1,7 @@
 pp6calculator - A simple command line calculator
 ================================================
-This is the README for the pp6calculator project.
+This is the README for the pp6calculator project, part of the MPAGS PP6
+course on software development with C++.
 
 Authors
 -------
@@ -12,7 +13,22 @@ pp6calculator is distributed under the terms of the Boost Software License.
 
 Installation
 ============
-TODO
+Prerequisites
+-------------
+- Unix operating system (Windows OS should work, but is not tested)
+- C++98/11 compiler (`g++`/`clang++` tested)
+
+Building pp6calculator
+----------------------
+Simply run the compiler on the `pp6calculator.cpp` file to output an
+executable. For example, using the GNU compiler:
+
+```
+$ g++ -W -Wall pp6calculator.cpp -o pp6calculator
+```
+
+You may then run the resulting `pp6calculator` executable. Compilation
+should succeed without warnings or errors.
 
 Working With Git
 ================
