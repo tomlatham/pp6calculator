@@ -1,5 +1,13 @@
 #include <iostream>
 #include <limits>
+#include <cmath>
+
+// Note that throughout I've used 'pow(x,y)' which does x^y (including 
+// non-integer values)
+// This is OK but is unnecessary in these cases as I'm mostly just 
+// squaring. 
+// This does add a *little* overhead for a function call but does make 
+// things easier to read!
 
 //----------------------------------------------------------------------
 // Functions
@@ -29,6 +37,23 @@ double intercept(double m, double c)
   return divide(-c, m);
 }
 
+double quadratic(double a, double b, double c, bool positiveRoot)
+{
+  double t(sqrt(pow(b, 2) - 4 * a * c));
+  double res(0);
+
+  if (positiveRoot)
+  {
+    res = (-b + t) / (2 * a);
+  }
+  else
+  {
+    res = (-b - t) / (2 * a);
+  }
+
+  return res;
+} 
+
 double getNumber()
 {
   double res(0);
@@ -56,7 +81,7 @@ double getNumber()
 int main() 
 {
   // Declare the variables
-  double res(0);
+  double res(0), res2(0);
   char op('\0');
   
   while (true)
@@ -68,6 +93,7 @@ int main()
     std::cout << "3)  Multiplication" << std::endl;
     std::cout << "4)  Division" << std::endl;
     std::cout << "5)  Intercept" << std::endl;
+    std::cout << "6)  Quadratic Solver" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -144,6 +170,36 @@ int main()
         res = intercept(m, c);
       }
     }
+    else if (op == '6')
+    {
+      // Solve ax^2 + bx + c = 0
+      double a(0), b(0), c(0);
+
+      // Ask user for quadratic coefficients
+      std::cout << "Enter the square coefficient: ";
+      a = getNumber();
+      std::cout << "Enter the linear coefficient: ";
+      b = getNumber();
+      std::cout << "Enter the constant coefficient: ";
+      c = getNumber();
+
+      if (pow(b, 2) < (4 * a * c))
+      {
+        std::cerr << "[error]: No solutions possible (b^2 < 4ac)" 
+                  << std::endl;
+        continue;
+      }
+      if (a == 0)
+      {
+        std::cerr << "[error]: Divide by zero error (a=0)" << std::endl;
+        continue;
+      }
+      else
+      {
+        res = quadratic(a, b, c, true);
+        res2 = quadratic(a, b, c, false);
+      }
+    }
     else
     {
       std::cerr << "[error] Operation '" << op << "' not recognised."
@@ -151,8 +207,16 @@ int main()
       continue;
     }
       
-    // print the result
-    std::cout << "[result]: " << res << std::endl;
+    // print the result(s)
+    if (op == '6')
+    {
+      std::cout << "[result]: positive_root: " << res << std::endl;
+      std::cout << "[result]: negative_root: " << res2 << std::endl;
+    }
+    else
+    {
+      std::cout << "[result]: " << res << std::endl;
+    }
   }
   
   std::cout << "Thank you for using pp6calculator!" << std::endl;
