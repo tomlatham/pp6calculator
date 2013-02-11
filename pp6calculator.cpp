@@ -12,74 +12,112 @@
 //----------------------------------------------------------------------
 // Functions
 //
-double add(double a, double b)
+int add(double a, double b, double& answer)
 {
-  return a + b;
+  answer = a + b;
+  return 0;
 }
 
-double subtract(double a, double b)
+int subtract(double a, double b, double& answer)
 {
-  return a - b;
+  answer = a - b;
+  return 0;
 }
 
-double multiply(double a, double b)
+int multiply(double a, double b, double& answer)
 {
-  return a * b;
+  answer = a * b;
+  return 0;
 }
 
-double divide(double a, double b)
+int divide(double a, double b, double& answer)
 {
-  return a / b;
-}
-
-double intercept(double m, double c)
-{
-  return divide(-c, m);
-}
-
-double quadratic(double a, double b, double c, bool positiveRoot)
-{
-  double t(sqrt(pow(b, 2) - 4 * a * c));
-  double res(0);
-
-  if (positiveRoot)
+  if (b == 0)
   {
-    res = (-b + t) / (2 * a);
+    return 1;
   }
-  else
+  
+  answer = a / b;
+  return 0;
+}
+
+int intercept(double m, double c, double& answer)
+{
+  return divide(-c, m, answer);
+}
+
+int quadratic(double a, double b, double c, double& positiveRoot,
+              double& negativeRoot)
+{
+  // No divide by zero
+  if (a == 0)
   {
-    res = (-b - t) / (2 * a);
+    return 1;
   }
 
-  return res;
+  double t(pow(b, 2) - 4 * a * c);
+
+  // Only allow real roots
+  if (t < 0)
+  {
+    return 2;
+  }
+
+  positiveRoot = (-b + sqrt(t)) / (2 * a);
+  negativeRoot = (-b - sqrt(t)) / (2 * a);
+
+  return 0;
 } 
 
-double length(double x, double y, double z)
+double length(double x, double y, double z, double& vectorLength)
 {
-  return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+  vectorLength = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+  return 0;
 }
 
-double length(double t, double x, double y, double z)
+double length(double t, double x, double y, double z, double& vectorLength)
 {
-  return sqrt(pow(t, 2) - pow(length(x, y, z), 2));
+  double spaceLength(0);
+  if (length(x, y, z, spaceLength))
+  {
+    return 1;
+  }
+
+  double timeSquared(pow(t, 2));
+  double spaceSquared(pow(spaceLength, 2));
+
+  // Only time-like vectors allowed
+  if (timeSquared < spaceSquared)
+  {
+    return 2;
+  }
+
+  vectorLength = sqrt(timeSquared - spaceSquared);
+  return 0;
 }
 
 double inv_mass(double e1, double px1, double py1, double pz1, 
-                double e2, double px2, double py2, double pz2)
+                double e2, double px2, double py2, double pz2,
+                double& invariantMass)
 {
   double tot_e(e1 + e2);
   double tot_px(px1 + px2);
   double tot_py(py1 + py2);
   double tot_pz(pz1 + pz2);
 
-  return length(tot_e, tot_px, tot_py, tot_pz);
+  if (length(tot_e, tot_px, tot_py, tot_pz, invariantMass))
+  {
+    return 1;
+  }
+  return 0; 
 }
 
-void swap(double& a, double& b)
+int swap(double& a, double& b)
 {
   double tmp(a);
   a = b;
   b = tmp;
+  return 0;
 }
 
 double getNumber()
@@ -90,7 +128,7 @@ double getNumber()
 
   while (!std::cin)
   {
-    std::cout << "Error in input. Please re-enter." << std::endl;
+    std::cout << "Error in input. Please re-enter >> ";
 
     // clear the buffer
     std::cin.clear();
@@ -109,7 +147,7 @@ double getNumber()
 int main() 
 {
   // Declare the variables
-  double res(0), res2(0);
+  double resultCode(0), answerHolder(0), answerHolder2(0);
   char op('\0');
   
   while (true)
@@ -160,27 +198,19 @@ int main()
       // calculate the result
       if (op == '1')
       {
-        res = add(a, b);
+        resultCode = add(a, b, answerHolder);
       }
       else if (op == '2')
       {
-        res = subtract(a, b);
+        resultCode = subtract(a, b, answerHolder);
       }
       else if (op == '3')
       {
-        res = multiply(a, b);
+        resultCode = multiply(a, b, answerHolder);
       }
       else if (op == '4')
       {
-        if (b == 0)
-        {
-          std::cerr << "[error] Divide by zero error" << std::endl;
-          continue;
-        }
-        else
-        {
-          res = divide(a, b);
-        }
+        resultCode = divide(a, b, answerHolder);
       }
       else if (op == '0')
       {
@@ -200,16 +230,7 @@ int main()
       m = getNumber();
       std::cout << "Enter the y intercept: ";
       c = getNumber();
-
-      if (c==0)
-      {
-        std::cerr << "[error] Divide by zero error" << std::endl;
-        continue;
-      }
-      else
-      {
-        res = intercept(m, c);
-      }
+      resultCode = intercept(m, c, answerHolder);
     }
     else if (op == '6')
     {
@@ -223,23 +244,8 @@ int main()
       b = getNumber();
       std::cout << "Enter the constant coefficient: ";
       c = getNumber();
-
-      if (pow(b, 2) < (4 * a * c))
-      {
-        std::cerr << "[error]: No solutions possible (b^2 < 4ac)" 
-                  << std::endl;
-        continue;
-      }
-      if (a == 0)
-      {
-        std::cerr << "[error]: Divide by zero error (a=0)" << std::endl;
-        continue;
-      }
-      else
-      {
-        res = quadratic(a, b, c, true);
-        res2 = quadratic(a, b, c, false);
-      }
+      
+      resultCode = quadratic(a, b, c, answerHolder, answerHolder2);
     }
     else if (op == '7')
     {
@@ -254,7 +260,7 @@ int main()
       std::cout << "Enter the z-component: ";
       z = getNumber();
 
-      res = length(x, y, z);
+      resultCode = length(x, y, z, answerHolder);
     }
     else if (op == '8')
     {
@@ -270,15 +276,8 @@ int main()
       z = getNumber();
       std::cout << "Enter the t-component: ";
       t = getNumber();
-  
-      if (pow(t,2) < length(x, y, z))
-      {
-        std::cerr << "[error] Space-like component larger than Time-like"
-                  << std::endl;
-        continue;
-      }
-
-      res = length(t, x, y, z);
+      
+      resultCode = length(t, x, y, z, answerHolder);
     }
     else if (op == '9')
 	  {
@@ -293,6 +292,7 @@ int main()
       pz1 = getNumber();
       std::cout << "Enter the e value for the first particle: ";
       e1 = getNumber();
+
       std::cout << "Enter the px value for the second particle: ";
       px2 = getNumber();
       std::cout << "Enter the py value for the second particle: ";
@@ -302,19 +302,9 @@ int main()
       std::cout << "Enter the e value for the second particle: ";
       e2 = getNumber();
 
-      if (pow(e1, 2) < length(px1, py1, pz1))
-      {
-        std::cerr << "[error]: Space-like component larger than Time-like for first particle" << std::endl;
-        continue;
-      }
-
-      if (pow(e2, 2) < length(px2, py2, pz2))
-      {
-        std::cerr << "[error]: Space-like component larger than Time-like for second particle" << std::endl;
-        continue;
-      }
-
-      res = inv_mass(e1, px1, py1, pz1, e1, px1, py1, pz1 );
+      resultCode = inv_mass(e1, px1, py1, pz1, 
+                            e1, px1, py1, pz1, 
+                            answerHolder);
     }
 
     else
@@ -323,16 +313,26 @@ int main()
                 << std::endl;
       continue;
     }
-      
-    // print the result(s)
+
+    // Handle any errors
+    if (resultCode)
+    {
+      std::cerr << "[error] Operation '" << op 
+                << "' returned a non-zero code '" << resultCode
+                << "'. Please check parameters."
+                << std::endl;
+      continue;
+    }
+
+    // if all is well, print the result(s)
     if (op == '6')
     {
-      std::cout << "[result]: positive_root: " << res << std::endl;
-      std::cout << "[result]: negative_root: " << res2 << std::endl;
+      std::cout << "[result]: positive_root: " << answerHolder << std::endl;
+      std::cout << "[result]: negative_root: " << answerHolder2 << std::endl;
     }
     else if (op != '0')
     {
-      std::cout << "[result]: " << res << std::endl;
+      std::cout << "[result]: " << answerHolder << std::endl;
     }
   }
   
