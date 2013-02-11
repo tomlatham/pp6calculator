@@ -11,6 +11,10 @@ License
 -------
 pp6calculator is distributed under the terms of the Boost Software License.
 
+News
+----
+Current version completes Day 1 of the PP6 Course.
+
 Installation
 ============
 Prerequisites
