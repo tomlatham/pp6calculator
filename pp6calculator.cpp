@@ -75,6 +75,13 @@ double inv_mass(double e1, double px1, double py1, double pz1,
   return length(tot_e, tot_px, tot_py, tot_pz);
 }
 
+void swap(double& a, double& b)
+{
+  double tmp(a);
+  a = b;
+  b = tmp;
+}
+
 double getNumber()
 {
   double res(0);
@@ -118,6 +125,7 @@ int main()
     std::cout << "7)  Length of 3-Vector" << std::endl;
     std::cout << "8)  Length of 4-Vector" << std::endl;
     std::cout << "9)  Invariant Mass of Two Particles" << std::endl;
+    std::cout << "0)  Swap Two Numbers" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -139,7 +147,8 @@ int main()
     {
       break;
     }
-    else if((op == '1') || (op == '2') || (op == '3') || (op == '4') )
+    else if((op == '1') || (op == '2') || (op == '3') || (op == '4') || 
+            (op == '0'))
     {
       // Arithmetic operations, so ask for two numbers from the user
       double a(0), b(0);
@@ -172,6 +181,14 @@ int main()
         {
           res = divide(a, b);
         }
+      }
+      else if (op == '0')
+      {
+        std::cout << "Before swap (a,b) = (" << a << ", " << b << ")" 
+                  << std::endl;
+        swap(a, b);
+        std::cout << "After swap (a,b) = (" << a << ", " << b << ")"
+                  << std::endl; 
       }
     }
     else if (op == '5')
@@ -313,7 +330,7 @@ int main()
       std::cout << "[result]: positive_root: " << res << std::endl;
       std::cout << "[result]: negative_root: " << res2 << std::endl;
     }
-    else
+    else if (op != '0')
     {
       std::cout << "[result]: " << res << std::endl;
     }
