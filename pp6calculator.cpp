@@ -64,6 +64,17 @@ double length(double t, double x, double y, double z)
   return sqrt(pow(t, 2) - pow(length(x, y, z), 2));
 }
 
+double inv_mass(double e1, double px1, double py1, double pz1, 
+                double e2, double px2, double py2, double pz2)
+{
+  double tot_e(e1 + e2);
+  double tot_px(px1 + px2);
+  double tot_py(py1 + py2);
+  double tot_pz(pz1 + pz2);
+
+  return length(tot_e, tot_px, tot_py, tot_pz);
+}
+
 double getNumber()
 {
   double res(0);
@@ -106,6 +117,7 @@ int main()
     std::cout << "6)  Quadratic Solver" << std::endl;
     std::cout << "7)  Length of 3-Vector" << std::endl;
     std::cout << "8)  Length of 4-Vector" << std::endl;
+    std::cout << "9)  Invariant Mass of Two Particles" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -251,6 +263,43 @@ int main()
 
       res = length(t, x, y, z);
     }
+    else if (op == '9')
+	  {
+      double e1(0), px1(0), py1(0), pz1(0), e2(0), px2(0), py2(0), pz2(0);
+
+      // Ask for eight numbers from the user
+      std::cout << "Enter the px value for the first particle: ";
+      px1 = getNumber();
+      std::cout << "Enter the py value for the first particle: ";
+      py1 = getNumber();
+      std::cout << "Enter the pz value for the first particle: ";
+      pz1 = getNumber();
+      std::cout << "Enter the e value for the first particle: ";
+      e1 = getNumber();
+      std::cout << "Enter the px value for the second particle: ";
+      px2 = getNumber();
+      std::cout << "Enter the py value for the second particle: ";
+      py2 = getNumber();
+      std::cout << "Enter the pz value for the second particle: ";
+      pz2 = getNumber();
+      std::cout << "Enter the e value for the second particle: ";
+      e2 = getNumber();
+
+      if (pow(e1, 2) < length(px1, py1, pz1))
+      {
+        std::cerr << "[error]: Space-like component larger than Time-like for first particle" << std::endl;
+        continue;
+      }
+
+      if (pow(e2, 2) < length(px2, py2, pz2))
+      {
+        std::cerr << "[error]: Space-like component larger than Time-like for second particle" << std::endl;
+        continue;
+      }
+
+      res = inv_mass(e1, px1, py1, pz1, e1, px1, py1, pz1 );
+    }
+
     else
     {
       std::cerr << "[error] Operation '" << op << "' not recognised."
