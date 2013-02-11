@@ -24,6 +24,11 @@ double divide(double a, double b)
   return a / b;
 }
 
+double intercept(double m, double c)
+{
+  return divide(-c, m);
+}
+
 double getNumber()
 {
   double res(0);
@@ -62,6 +67,7 @@ int main()
     std::cout << "2)  Subtraction" << std::endl;
     std::cout << "3)  Multiplication" << std::endl;
     std::cout << "4)  Division" << std::endl;
+    std::cout << "5)  Intercept" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -116,6 +122,26 @@ int main()
         {
           res = divide(a, b);
         }
+      }
+    }
+    else if (op == '5')
+    {
+      double m(0), c(0);
+
+      // Ask for two numbers from the user
+      std::cout << "Enter the gradient: ";
+      m = getNumber();
+      std::cout << "Enter the y intercept: ";
+      c = getNumber();
+
+      if (c==0)
+      {
+        std::cerr << "[error] Divide by zero error" << std::endl;
+        continue;
+      }
+      else
+      {
+        res = intercept(m, c);
       }
     }
     else
