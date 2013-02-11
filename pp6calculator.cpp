@@ -1,6 +1,32 @@
 #include <iostream>
 #include <limits>
 
+//----------------------------------------------------------------------
+// Functions
+//
+double add(double a, double b)
+{
+  return a + b;
+}
+
+double subtract(double a, double b)
+{
+  return a - b;
+}
+
+double multiply(double a, double b)
+{
+  return a * b;
+}
+
+double divide(double a, double b)
+{
+  return a / b;
+}
+
+//----------------------------------------------------------------------
+// Main program
+//
 int main() 
 {
   // Declare the variables
@@ -19,8 +45,6 @@ int main()
       std::cerr << "[error] Error in input" << std::endl;
     
       // clear the buffer
-      // note that the large argument of 'ignore' just specifies a 
-      // very large number of characters until a newline is encountered!
       std::cin.clear();
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       continue;
@@ -64,15 +88,15 @@ int main()
     // calculate the result
     if (op == '+')
     {
-      res = a + b;
+      res = add(a, b);
     }
     else if (op == '-')
     {
-      res = a - b;
+      res = subtract(a, b);
     }
     else if (op == '*')
     {
-      res = a * b;
+      res = multiply(a, b);
     }
     else if (op == '/')
     {
@@ -83,7 +107,7 @@ int main()
       }
       else
       {
-        res = a / b;
+        res = divide(a, b);
       }
     }
     else
@@ -96,7 +120,7 @@ int main()
     // print the answer
     std::cout << "The result of the operation " << op 
               << " on " << a << " and " << b 
-              << " is:  " << res << std::endl;    
+              << " is:  " << res << std::endl;
   }
   
   std::cout << "Thank you for using pp6calculator!" << std::endl;
