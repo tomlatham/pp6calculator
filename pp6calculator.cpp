@@ -54,6 +54,16 @@ double quadratic(double a, double b, double c, bool positiveRoot)
   return res;
 } 
 
+double length(double x, double y, double z)
+{
+  return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+}
+
+double length(double t, double x, double y, double z)
+{
+  return sqrt(pow(t, 2) - pow(length(x, y, z), 2));
+}
+
 double getNumber()
 {
   double res(0);
@@ -94,6 +104,8 @@ int main()
     std::cout << "4)  Division" << std::endl;
     std::cout << "5)  Intercept" << std::endl;
     std::cout << "6)  Quadratic Solver" << std::endl;
+    std::cout << "7)  Length of 3-Vector" << std::endl;
+    std::cout << "8)  Length of 4-Vector" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -199,6 +211,45 @@ int main()
         res = quadratic(a, b, c, true);
         res2 = quadratic(a, b, c, false);
       }
+    }
+    else if (op == '7')
+    {
+      // Calculate sqrt(x^2+y^2+z^2)
+      double x(0), y(0), z(0);
+
+      // Ask user for vector components
+      std::cout << "Enter the x-component: ";
+      x = getNumber();
+      std::cout << "Enter the y-component: ";
+      y = getNumber();
+      std::cout << "Enter the z-component: ";
+      z = getNumber();
+
+      res = length(x, y, z);
+    }
+    else if (op == '8')
+    {
+      // Calculate sqrt(t^2 - (x^2+y^2+z^2))
+      double x(0), y(0), z(0), t(0);
+
+      // Ask user for vector components
+      std::cout << "Enter the x-component: ";
+      x = getNumber();
+      std::cout << "Enter the y-component: ";
+      y = getNumber();
+      std::cout << "Enter the z-component: ";
+      z = getNumber();
+      std::cout << "Enter the t-component: ";
+      t = getNumber();
+  
+      if (pow(t,2) < length(x, y, z))
+      {
+        std::cerr << "[error] Space-like component larger than Time-like"
+                  << std::endl;
+        continue;
+      }
+
+      res = length(t, x, y, z);
     }
     else
     {
