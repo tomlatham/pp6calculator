@@ -120,6 +120,42 @@ int swap(double& a, double& b)
   return 0;
 }
 
+int basic_sort(double *arr, int size)
+{
+  // Perform a bubble sort on the given array
+  bool done(true);
+
+  while (true)
+  {
+    done = true;
+
+    for (int i = 0; i < size-1; ++i)
+    {
+      if (arr[i] < arr[i+1])
+      {
+        swap(arr[i], arr[i+1]);
+        done = false;
+      }
+    }
+
+    if (done)
+    {
+      break;
+    }
+  }
+  return 0;
+}
+
+void printArray(double *arr, int size)
+{
+  std::cout << "[array:" << arr << "]{";
+  for (int i = 0; i < size - 1; ++i)
+  {
+    std::cout << arr[i] << ", ";
+  }
+  std::cout << arr[size - 1] << "}" << std::endl;
+}
+
 double getNumber()
 {
   double res(0);
@@ -164,6 +200,7 @@ int main()
     std::cout << "8)  Length of 4-Vector" << std::endl;
     std::cout << "9)  Invariant Mass of Two Particles" << std::endl;
     std::cout << "0)  Swap Two Numbers" << std::endl;
+    std::cout << "s)  Sort an Array of Numbers" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -306,7 +343,34 @@ int main()
                             e1, px1, py1, pz1, 
                             answerHolder);
     }
+    else if (op == 's')
+    {
+      int arraySize(0);
+      std::cout << "Enter the size of the array: ";
+      arraySize = getNumber();
+      if ((arraySize > 0) && (arraySize < 11))
+      {
+        double *currentArray = new double[arraySize];
+        for (int i = 0; i < arraySize; ++i)
+        {
+          std::cout << "Enter the value of element " << i << ": ";
+          currentArray[i] = getNumber();
+        }
 
+        std::cout << "Array before sorting:" << std::endl;
+        printArray(currentArray, arraySize);
+        
+        basic_sort(currentArray, arraySize);
+        
+        std::cout << "Array after sorting:" << std::endl;
+        printArray(currentArray, arraySize);
+        
+        delete [] currentArray;
+      }
+      else {
+        std::cerr << "[error]: Array size must be between 1 and 10" << std::endl;
+      }
+    }
     else
     {
       std::cerr << "[error] Operation '" << op << "' not recognised."
@@ -330,7 +394,7 @@ int main()
       std::cout << "[result]: positive_root: " << answerHolder << std::endl;
       std::cout << "[result]: negative_root: " << answerHolder2 << std::endl;
     }
-    else if (op != '0')
+    else if ((op != '0') && (op != 's'))
     {
       std::cout << "[result]: " << answerHolder << std::endl;
     }
