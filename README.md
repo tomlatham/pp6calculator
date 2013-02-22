@@ -25,10 +25,12 @@ Prerequisites
 Building pp6calculator
 ----------------------
 Simply run the compiler on the `pp6calculator.cpp` and `PP6Math.cpp` 
-files to output an executable. For example, using the GNU compiler:
+files to output an executable. You will also need to specify the `PP6Lib`
+directory as an include path to ensure the headers for the implementation
+library are picked up. For example, using the GNU compiler:
 
 ```
-$ g++ -W -Wall PP6Math.cpp pp6calculator.cpp -o pp6calculator
+$ g++ -W -Wall -I./PP6Lib PP6Math.cpp pp6calculator.cpp -o pp6calculator
 ```
 
 You may then run the resulting `pp6calculator` executable. Compilation
