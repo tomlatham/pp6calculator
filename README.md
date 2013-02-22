@@ -24,11 +24,11 @@ Prerequisites
 
 Building pp6calculator
 ----------------------
-Simply run the compiler on the `pp6calculator.cpp` file to output an
-executable. For example, using the GNU compiler:
+Simply run the compiler on the `pp6calculator.cpp` and `PP6Math.cpp` 
+files to output an executable. For example, using the GNU compiler:
 
 ```
-$ g++ -W -Wall pp6calculator.cpp -o pp6calculator
+$ g++ -W -Wall PP6Math.cpp pp6calculator.cpp -o pp6calculator
 ```
 
 You may then run the resulting `pp6calculator` executable. Compilation
