@@ -10,7 +10,12 @@ project(pp6calculator)
 # - Tell compiler where to find headers
 include_directories(PP6Lib)
 
+# - Add the PP6Lib library
+add_library(pp6lib PP6Lib/PP6Math.hpp PP6Lib/PP6Math.cpp)
+
 # - Add the pp6calculator program
-add_executable(pp6calculator pp6calculator.cpp PP6Lib/PP6Math.cpp 
-  PP6Lib/PP6Math.hpp)
+add_executable(pp6calculator pp6calculator.cpp)
+
+# - Link pp6calculator to the pp6lib library
+target_link_libraries(pp6calculator pp6lib)
 
