@@ -7,6 +7,11 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # - Declare the project
 project(pp6calculator)
 
+# - Use standard flag set when using the GNU compiler
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_CXX_FLAGS "-std=c++98 -pedantic-errors -Wall -Wextra -Werror -Wfatal-errors -Wwrite-strings -Woverloaded-virtual -fno-nonansi-builtins -fno-gnu-keywords -fstrict-aliasing")
+endif()
+
 # - Tell compiler where to find headers
 include_directories(PP6Lib)
 
