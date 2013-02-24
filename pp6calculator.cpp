@@ -3,37 +3,30 @@
 #include <limits>
 
 // This Project
-#include "PP6Math.hpp"
+#include "PP6Day1Menu.hpp"
+#include "PP6Day2Menu.hpp"
 
 //----------------------------------------------------------------------
 // Main program
 //
 int main() 
 {
-  // Declare the variables
-  double resultCode(0), answerHolder(0), answerHolder2(0);
-  char op('\0');
-  
+  // Menu operation
+  char item('\0');
+
   while (true)
   {
-    // Ask the user what they want to do
-    std::cout << "Enter the operation you would like to perform:" << std::endl;
-    std::cout << "1)  Addition" << std::endl;
-    std::cout << "2)  Subtraction" << std::endl;
-    std::cout << "3)  Multiplication" << std::endl;
-    std::cout << "4)  Division" << std::endl;
-    std::cout << "5)  Intercept" << std::endl;
-    std::cout << "6)  Quadratic Solver" << std::endl;
-    std::cout << "7)  Length of 3-Vector" << std::endl;
-    std::cout << "8)  Length of 4-Vector" << std::endl;
-    std::cout << "9)  Invariant Mass of Two Particles" << std::endl;
-    std::cout << "0)  Swap Two Numbers" << std::endl;
-    std::cout << "s)  Sort an Array of Numbers" << std::endl;
+    // Ask the user to select a submenu or quit
+    std::cout << "PP6Calculator - Main Menu" << std::endl;
+    std::cout << "=========================" << std::endl;
+    std::cout << "Choose the operation you would like to perform:" << std::endl;
+    std::cout << "1)  Basic Mathematics from Day 1" << std::endl;
+    std::cout << "2)  Array Operations from Day 2" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
-    
-    std::cin >> op;
-      
+
+    std::cin >> item;
+
     // check for bad input
     if(!std::cin)
     {
@@ -46,188 +39,26 @@ int main()
     }
 
     // Handle menu operation
-    if (op == 'q')
+    if (item == 'q')
     {
       break;
     }
-    else if((op == '1') || (op == '2') || (op == '3') || (op == '4') || 
-            (op == '0'))
+    else if (item == '1')
     {
-      // Arithmetic operations, so ask for two numbers from the user
-      double a(0), b(0);
-      std::cout << "Enter the first number: ";
-      a = getNumber();
-      std::cout << "Enter the second number: ";
-      b = getNumber();
-       
-      // calculate the result
-      if (op == '1')
-      {
-        resultCode = add(a, b, answerHolder);
-      }
-      else if (op == '2')
-      {
-        resultCode = subtract(a, b, answerHolder);
-      }
-      else if (op == '3')
-      {
-        resultCode = multiply(a, b, answerHolder);
-      }
-      else if (op == '4')
-      {
-        resultCode = divide(a, b, answerHolder);
-      }
-      else if (op == '0')
-      {
-        std::cout << "Before swap (a,b) = (" << a << ", " << b << ")" 
-                  << std::endl;
-        swap(a, b);
-        std::cout << "After swap (a,b) = (" << a << ", " << b << ")"
-                  << std::endl; 
-      }
+      pp6day1_menu();
     }
-    else if (op == '5')
+    else if (item == '2')
     {
-      double m(0), c(0);
-
-      // Ask for two numbers from the user
-      std::cout << "Enter the gradient: ";
-      m = getNumber();
-      std::cout << "Enter the y intercept: ";
-      c = getNumber();
-      resultCode = intercept(m, c, answerHolder);
-    }
-    else if (op == '6')
-    {
-      // Solve ax^2 + bx + c = 0
-      double a(0), b(0), c(0);
-
-      // Ask user for quadratic coefficients
-      std::cout << "Enter the square coefficient: ";
-      a = getNumber();
-      std::cout << "Enter the linear coefficient: ";
-      b = getNumber();
-      std::cout << "Enter the constant coefficient: ";
-      c = getNumber();
-      
-      resultCode = quadratic(a, b, c, answerHolder, answerHolder2);
-    }
-    else if (op == '7')
-    {
-      // Calculate sqrt(x^2+y^2+z^2)
-      double x(0), y(0), z(0);
-
-      // Ask user for vector components
-      std::cout << "Enter the x-component: ";
-      x = getNumber();
-      std::cout << "Enter the y-component: ";
-      y = getNumber();
-      std::cout << "Enter the z-component: ";
-      z = getNumber();
-
-      resultCode = length(x, y, z, answerHolder);
-    }
-    else if (op == '8')
-    {
-      // Calculate sqrt(t^2 - (x^2+y^2+z^2))
-      double x(0), y(0), z(0), t(0);
-
-      // Ask user for vector components
-      std::cout << "Enter the x-component: ";
-      x = getNumber();
-      std::cout << "Enter the y-component: ";
-      y = getNumber();
-      std::cout << "Enter the z-component: ";
-      z = getNumber();
-      std::cout << "Enter the t-component: ";
-      t = getNumber();
-      
-      resultCode = length(t, x, y, z, answerHolder);
-    }
-    else if (op == '9')
-	  {
-      double e1(0), px1(0), py1(0), pz1(0), e2(0), px2(0), py2(0), pz2(0);
-
-      // Ask for eight numbers from the user
-      std::cout << "Enter the px value for the first particle: ";
-      px1 = getNumber();
-      std::cout << "Enter the py value for the first particle: ";
-      py1 = getNumber();
-      std::cout << "Enter the pz value for the first particle: ";
-      pz1 = getNumber();
-      std::cout << "Enter the e value for the first particle: ";
-      e1 = getNumber();
-
-      std::cout << "Enter the px value for the second particle: ";
-      px2 = getNumber();
-      std::cout << "Enter the py value for the second particle: ";
-      py2 = getNumber();
-      std::cout << "Enter the pz value for the second particle: ";
-      pz2 = getNumber();
-      std::cout << "Enter the e value for the second particle: ";
-      e2 = getNumber();
-
-      resultCode = inv_mass(e1, px1, py1, pz1, 
-                            e1, px1, py1, pz1, 
-                            answerHolder);
-    }
-    else if (op == 's')
-    {
-      int arraySize(0);
-      std::cout << "Enter the size of the array: ";
-      arraySize = getNumber();
-      if ((arraySize > 0) && (arraySize < 11))
-      {
-        double *currentArray = new double[arraySize];
-        for (int i = 0; i < arraySize; ++i)
-        {
-          std::cout << "Enter the value of element " << i << ": ";
-          currentArray[i] = getNumber();
-        }
-
-        std::cout << "Array before sorting:" << std::endl;
-        printArray(currentArray, arraySize);
-        
-        basic_sort(currentArray, arraySize);
-        
-        std::cout << "Array after sorting:" << std::endl;
-        printArray(currentArray, arraySize);
-        
-        delete [] currentArray;
-      }
-      else {
-        std::cerr << "[error]: Array size must be between 1 and 10" << std::endl;
-      }
+      pp6day2_menu();
     }
     else
     {
-      std::cerr << "[error] Operation '" << op << "' not recognised."
+      std::cerr << "[error] Operation '" << item << "' not recognised."
                 << std::endl;
       continue;
-    }
-
-    // Handle any errors
-    if (resultCode)
-    {
-      std::cerr << "[error] Operation '" << op 
-                << "' returned a non-zero code '" << resultCode
-                << "'. Please check parameters."
-                << std::endl;
-      continue;
-    }
-
-    // if all is well, print the result(s)
-    if (op == '6')
-    {
-      std::cout << "[result]: positive_root: " << answerHolder << std::endl;
-      std::cout << "[result]: negative_root: " << answerHolder2 << std::endl;
-    }
-    else if ((op != '0') && (op != 's'))
-    {
-      std::cout << "[result]: " << answerHolder << std::endl;
     }
   }
-  
+ 
   std::cout << "Thank you for using pp6calculator!" << std::endl;
   return 0;
 }
