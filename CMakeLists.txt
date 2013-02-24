@@ -24,3 +24,9 @@ add_executable(pp6calculator pp6calculator.cpp)
 # - Link pp6calculator to the pp6lib library
 target_link_libraries(pp6calculator pp6lib)
 
+# - Install pp6calculator to the bin subdirectory of CMAKE_INSTALL_PREFIX
+install(TARGETS pp6calculator DESTINATION bin)
+
+# - Package pp6calculator sources and executable
+include(CPack)
+
