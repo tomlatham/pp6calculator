@@ -15,9 +15,15 @@ int intercept(double m, double c, double& answer);
 int quadratic(double a, double b, double c, double& positiveRoot,
               double& negativeRoot);
 
+// - Statistics
+int getMeanAndStdDev(double *x, int size, double& mean, double& stddev);
+
 // - Vectors
 double length(double x, double y, double z, double& vectorLength);
 double length(double t, double x, double y, double z, double& vectorLength);
+
+int sumVectors(double *x, double *y, double *z, int size, 
+               double &sumX, double &sumY, double &sumZ);
 
 // - Physics
 double inv_mass(double e1, double px1, double py1, double pz1, 
@@ -25,9 +31,14 @@ double inv_mass(double e1, double px1, double py1, double pz1,
                 double& invariantMass);
 
 // - Utility
-int swap(double& a, double &b);
+int swap(double &a, double &b);
+int swap(int &a, int &b);
 int basic_sort(double *arr, int size);
+int associative_sort(double *arr, int *indices, int size);
 void printArray(double *arr, int size);
+
+double getRandom();
+
 double getNumber();
 
 #endif // PP6CALCULATOR_PP6MATH_HH

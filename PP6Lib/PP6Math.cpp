@@ -6,6 +6,7 @@
 #include <iostream>
 #include <limits>
 #include <cmath>
+#include <cstdlib>
 
 //----------------------------------------------------------------------
 // Function Definitions
@@ -74,6 +75,33 @@ int quadratic(double a, double b, double c, double& positiveRoot,
   return 0;
 } 
 
+int getMeanAndStdDev(double *x, int size, double& mean, double& stddev)
+{
+  // Check for valid pointer
+  if (!x) return 1;
+
+  // loop and compute mean
+  mean = 0;
+  for (int i(0); i < size; ++i)
+  {
+    mean += x[i];
+  }
+
+  mean /= size;
+
+  // now the standard deviation
+  stddev = 0;
+  for (int i(0); i < size; ++i)
+  {
+    stddev += (x[i] - mean) * (x[i] - mean);
+  }
+
+  stddev /= size;
+  stddev = sqrt(stddev);
+
+  return 0;
+}
+
 double length(double x, double y, double z, double& vectorLength)
 {
   vectorLength = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
@@ -101,6 +129,29 @@ double length(double t, double x, double y, double z, double& vectorLength)
   return 0;
 }
 
+int sumVectors(double *x, double *y, double *z, int size, 
+               double &sumX, double &sumY, double &sumZ)
+{
+  // check for valid pointers
+  if ((!x) || (!y) || (!z))
+  {
+    return 1;
+  }
+
+  sumX = 0;
+  sumY = 0;
+  sumZ = 0;
+
+  for (int i(0); i < size; ++i)
+  {
+    sumX += x[i];
+    sumY += y[i];
+    sumZ += z[i];
+  }
+
+  return 0;
+}
+
 double inv_mass(double e1, double px1, double py1, double pz1, 
                 double e2, double px2, double py2, double pz2,
                 double& invariantMass)
@@ -120,6 +171,14 @@ double inv_mass(double e1, double px1, double py1, double pz1,
 int swap(double& a, double& b)
 {
   double tmp(a);
+  a = b;
+  b = tmp;
+  return 0;
+}
+
+int swap(int& a, int& b)
+{
+  int tmp(a);
   a = b;
   b = tmp;
   return 0;
@@ -151,6 +210,42 @@ int basic_sort(double *arr, int size)
   return 0;
 }
 
+int associative_sort(double *arr, int *index, int size)
+{
+  // create a temporary array to sort on so we only change the index array
+  double *arr_t = new double[size];
+  for (int i(0); i < size; i++)
+  {
+    arr_t[i] = arr[i];
+  }
+
+  // Perform a bubble sort on the given array
+  bool done(true);
+
+  while (true)
+  {
+    done = true;
+
+    for (int i(0); i < size-1; ++i)
+    {
+      if (arr_t[i] < arr_t[i+1])
+      {
+        swap(index[i], index[i+1]);
+        swap(arr_t[i], arr_t[i+1]);
+        done = false;
+      }
+    }
+    if (done)
+    {
+      break;
+    }
+  }
+
+  // delete temporary array, then return success
+  delete [] arr_t;
+  return 0;
+}
+  
 void printArray(double *arr, int size)
 {
   std::cout << "[array:" << arr << "]{";
@@ -159,6 +254,11 @@ void printArray(double *arr, int size)
     std::cout << arr[i] << ", ";
   }
   std::cout << arr[size - 1] << "}" << std::endl;
+}
+
+double getRandom()
+{
+  return (rand() % 10000)/10000.;
 }
 
 double getNumber()
