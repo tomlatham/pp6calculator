@@ -7,5 +7,7 @@ add_library(pp6lib STATIC
   PP6Day1Menu.cpp
   PP6Day2Menu.hpp 
   PP6Day2Menu.cpp
+  PP6Day2VectorAnalysis.hpp
+  PP6Day2VectorAnalysis.cpp
   )
 
