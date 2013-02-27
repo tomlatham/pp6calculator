@@ -4,6 +4,8 @@
 #ifndef PP6CALCULATOR_PP6MATH_HH
 #define PP6CALCULATOR_PP6MATH_HH
 
+#include <string>
+
 // - Arithmetic
 int add(double a, double b, double& answer);
 int subtract(double a, double b, double& answer);
@@ -40,6 +42,7 @@ void printArray(double *arr, int size);
 double getRandom();
 
 double getNumber();
+std::string getString();
 
 #endif // PP6CALCULATOR_PP6MATH_HH
 

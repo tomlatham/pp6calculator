@@ -282,3 +282,24 @@ double getNumber()
   return res;
 }
 
+std::string getString()
+{
+  std::string res;
+
+  std::cin >> res;
+
+  while (!std::cin)
+  {
+    std::cout << "Error in input. Please re-enter >> ";
+
+    // clear the buffer
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    // retry
+    std::cin >> res;
+  }
+
+  return res;
+}
+
