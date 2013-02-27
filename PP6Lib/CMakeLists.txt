@@ -9,5 +9,7 @@ add_library(pp6lib STATIC
   PP6Day2Menu.cpp
   PP6Day2VectorAnalysis.hpp
   PP6Day2VectorAnalysis.cpp
+  PP6Day2MuonAnalysis.hpp
+  PP6Day2MuonAnalysis.cpp
   )
 

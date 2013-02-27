@@ -9,6 +9,7 @@
 // This Project
 #include "PP6Math.hpp"
 #include "PP6Day2VectorAnalysis.hpp"
+#include "PP6Day2MuonAnalysis.hpp"
 
 void pp6day2_menu() {
   // Declare the variables
@@ -24,6 +25,7 @@ void pp6day2_menu() {
     std::cout << "1)  Swap Two Numbers" << std::endl;
     std::cout << "2)  Sort an Array of Numbers" << std::endl;
     std::cout << "3)  Generate and Analyse N Random 4-Vectors" << std::endl;
+    std::cout << "4)  Analyse input files for muon pairs" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -92,6 +94,10 @@ void pp6day2_menu() {
     else if (op == '3')
     {
       resultCode = pp6day2_vectoranalysis();
+    }
+    else if (op == '4')
+    {
+      resultCode = pp6day2_muonanalysis();
     }
     else
     {
