@@ -4,6 +4,7 @@
 
 // Standard Library
 #include <iostream>
+#include <limits>
 
 // This Project
 #include "PP6Math.hpp"
@@ -158,7 +159,7 @@ void pp6day1_menu() {
       e2 = getNumber();
 
       resultCode = inv_mass(e1, px1, py1, pz1, 
-                            e1, px1, py1, pz1, 
+                            e2, px2, py2, pz2, 
                             answerHolder);
     }
     else

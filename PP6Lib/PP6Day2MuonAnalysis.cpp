@@ -28,13 +28,12 @@ int countMuons(const std::string& inputFile, const std::string& runName,
   numberOfMuons = 0;
   numberOfAntiMuons = 0;
 
-  int eventNumber(0);
   std::string particleName, dataID;
 
   while (counter.nextLine()) {
     // Valid lines should begin with an integer, continue without error
     // to skip header
-    eventNumber = counter.getFieldAsInt(1);
+    counter.getFieldAsInt(1);
     if (counter.inputFailed()) continue;
 
     particleName = counter.getFieldAsString(2);

@@ -5,6 +5,7 @@
 // Standard Library
 #include <iostream>
 #include <cmath>
+#include <limits>
 
 // This Project
 #include "PP6Math.hpp"
