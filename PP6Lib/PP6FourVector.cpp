@@ -53,17 +53,13 @@ std::string FourVector::asString() const
 
 //! Default Create a new FourVector instance
 FourVector* createFourVector() {
-  return createFourVector(0.0, 0.0, 0.0, 0.0);
+  return new FourVector;
 }
 
 //! Create a new FourVector instance with components
 FourVector* createFourVector(const double t, const double x, const double y,
                              const double z) {
-  FourVector *p = new FourVector;
-  p->t = t;
-  p->x = x;
-  p->y = y;
-  p->z = z;
+  FourVector *p = new FourVector(t, x, y, z);
   return p;
 }
 
@@ -75,5 +71,4 @@ void destroyFourVector(FourVector *&p) {
     p = 0;
   }
 }
-
 

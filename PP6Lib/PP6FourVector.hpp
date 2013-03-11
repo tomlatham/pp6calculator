@@ -18,6 +18,16 @@ class FourVector {
          // it's usually best to use this to break things up by
          // function, e.g. constants/typedefs first, then member functions
          // then member variables
+  //! Default constructor
+  FourVector() : t(0.0), x(0.0), y(0.0), z(0.0) {}
+
+  //! Copy Constructor
+  FourVector(const FourVector& other) : t(other.t), x(other.x), y(other.y), z(other.z) {}
+
+  //! Constructor with values
+  FourVector(const double t, const double x, const double y, const double z)
+      : t(t), x(x), y(y), z(z) {}
+
   //! return the interval of the vector
   double interval() const;
 
