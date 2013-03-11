@@ -17,5 +17,7 @@ add_library(pp6lib STATIC
   PP6FourVector.cpp
   PP6ThreeVector.hpp
   PP6ThreeVector.cpp
-  )
+  PP6Particle.hpp
+  PP6Particle.cpp
+ )
 
