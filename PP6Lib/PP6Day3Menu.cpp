@@ -9,10 +9,28 @@
 #include "PP6FourVector.hpp"
 #include "PP6Math.hpp"
 
+FourVector* userCreateFourVector() 
+{
+  double it(0), ix(0), iy(0), iz(0);
+
+  // Ask user for vector components
+  std::cout << "Enter the t-component: ";
+  it = getNumber();
+  std::cout << "Enter the x-component: ";
+  ix = getNumber();
+  std::cout << "Enter the y-component: ";
+  iy = getNumber();
+  std::cout << "Enter the z-component: ";
+  iz = getNumber();
+ 
+  return createFourVector(it, ix, iy, iz);
+}
+
+
 void pp6day3_menu() {
   // Declare the variables
   // Variables for i/o
-  FourVector iV = {0, 0, 0, 0};
+  FourVector *iV(0);
   double ivelocity(0.0);
   
   double oInterval(0.0);
@@ -51,45 +69,25 @@ void pp6day3_menu() {
     }
     else if (op == '1')
     {
-      // Read in four values
-      // Ask user for vector components
-      std::cout << "Enter the t-component: ";
-      iV.t = getNumber();
-      std::cout << "Enter the x-component: ";
-      iV.x = getNumber();
-      std::cout << "Enter the y-component: ";
-      iV.y = getNumber();
-      std::cout << "Enter the z-component: ";
-      iV.z = getNumber();
-      
+      // Read in the four vector
+      iV = userCreateFourVector();
       oInterval = interval(iV);
-
-      std::cout << "[result]: interval = " << oInterval << std::endl;     
+      std::cout << "[result]: interval = " << oInterval << std::endl;
+      destroyFourVector(iV);    
     }
     else if (op == '2')
     {
-      // Read in four values
-      // Ask user for vector components
-      std::cout << "Enter the t-component: ";
-      iV.t = getNumber();
-      std::cout << "Enter the x-component: ";
-      iV.x = getNumber();
-      std::cout << "Enter the y-component: ";
-      iV.y = getNumber();
-      std::cout << "Enter the z-component: ";
-      iV.z = getNumber();
+      // Read in the four vector and velocity
+      iV = userCreateFourVector();
+
       std::cout << "Enter the boost speed along z: ";
       ivelocity = getNumber();
 
       resultCode = boost_z(iV, ivelocity);
       if (!resultCode) 
       {
-        std::cout << "[result] v = ("
-                  << iV.t << ", "
-                  << iV.x << ", "
-                  << iV.y << ", "
-                  << iV.z << ")" 
-                  << std::endl;
+        std::cout << "[result] v = " << asString(iV) << std::endl;
+        destroyFourVector(iV);
       }
     }
     else
@@ -107,6 +105,7 @@ void pp6day3_menu() {
                 << "'. Please check parameters."
                 << std::endl;
       resultCode = 0;
+      destroyFourVector(iV);
       continue;
     }
   }
