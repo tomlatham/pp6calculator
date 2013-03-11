@@ -14,9 +14,7 @@ const double FourVector::c2(9E16);
 
 double FourVector::interval() const
 {
-  // interval s^2 = (ct)^2 - (x^2 + y^2 + z^2)
-  double s = c2*t*t - (x*x + y*y + z*z);        
-  return s;
+  return s_;
 }
 
 int FourVector::boost_z(const double velocity) 
@@ -33,10 +31,10 @@ int FourVector::boost_z(const double velocity)
   double gamma = 1.0 / sqrt(1.0 - velocity * velocity / c2);
   
   // Apply boost in z direction - need temp variables due to mixing
-  double z_prime = gamma * ( z - velocity * t);
-  double t_prime = gamma * ( t - velocity * z / c2);
-  z = z_prime;
-  t = t_prime;
+  double z_prime = gamma * ( z_ - velocity * t_);
+  double t_prime = gamma * ( t_ - velocity * z_ / c2);
+  z_ = z_prime;
+  t_ = t_prime;
 
   return 0; // Indicate success
 }
@@ -44,9 +42,16 @@ int FourVector::boost_z(const double velocity)
 std::string FourVector::asString() const
 {
   std::ostringstream s;
-  s << "(" << t << ", " << x << ", " << y << ", " << z << ")";
+  s << "(" << getT() << ", " << getX() << ", " << getY() << ", " << getZ() << ")";
   return s.str();
 }
+
+void FourVector::compute_interval()
+{
+  // interval s^2 = (ct)^2 - (x^2 + y^2 + z^2)
+  s_ = c2*t_*t_ - (x_*x_ + y_*y_ + z_*z_);        
+} 
+
 
 //----------------------------------------------------------------------
 // Free functions - we can retain these for convenience!

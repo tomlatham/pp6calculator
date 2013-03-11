@@ -9,24 +9,19 @@
 
 //! FourVector class
 class FourVector {
- public:
-  //! constants and typedefs
-  static const double c;
-  static const double c2;
-
  public: // we can use access specifiers as many times as we like
          // it's usually best to use this to break things up by
          // function, e.g. constants/typedefs first, then member functions
          // then member variables
   //! Default constructor
-  FourVector() : t(0.0), x(0.0), y(0.0), z(0.0) {}
+  FourVector() : t_(0.0), x_(0.0), y_(0.0), z_(0.0), s_(0.0) {}
 
   //! Copy Constructor
-  FourVector(const FourVector& other) : t(other.t), x(other.x), y(other.y), z(other.z) {}
+  FourVector(const FourVector& other) : t_(other.getT()), x_(other.getX()), y_(other.getY()), z_(other.getZ()), s_(other.interval()) {}
 
   //! Constructor with values
   FourVector(const double t, const double x, const double y, const double z)
-      : t(t), x(x), y(y), z(z) {}
+      : t_(t), x_(x), y_(y), z_(z) {compute_interval();}
 
   //! return the interval of the vector
   double interval() const;
@@ -37,12 +32,32 @@ class FourVector {
   //! return a string representation of this vector
   std::string asString() const;
 
- public:
+  //! get t, x, y, z components of vector
+  double getT() const {return t_;}
+  double getX() const {return x_;}
+  double getY() const {return y_;}
+  double getZ() const {return z_;}
+
+  //! set t, x, y, z components of vector
+  void setT(const double t) {t_ = t; compute_interval();}
+  void setX(const double x) {x_ = x; compute_interval();}
+  void setY(const double y) {y_ = y; compute_interval();}
+  void setZ(const double z) {z_ = z; compute_interval();}
+
+ private:
+  //! constants, but only needed internally to FourVector
+  static const double c;
+  static const double c2;
+ private:
+  //! recompute interval whenever components change
+  void compute_interval();
+ private:
   //! member variables
-  double t;
-  double x;
-  double y;
-  double z;
+  double t_;
+  double x_;
+  double y_;
+  double z_;
+  double s_; // current interval
 };
 
 /*
