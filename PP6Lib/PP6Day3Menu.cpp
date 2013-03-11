@@ -30,7 +30,7 @@ FourVector* userCreateFourVector()
 void pp6day3_menu() {
   // Declare the variables
   // Variables for i/o
-  FourVector *iV(0);
+  FourVector *iV(0), *iU(0);
   double ivelocity(0.0);
   
   double resultCode(0); 
@@ -44,6 +44,7 @@ void pp6day3_menu() {
     std::cout << "Enter the operation you would like to perform:" << std::endl;
     std::cout << "1)  Create a FourVector and calculate its interval" << std::endl;
     std::cout << "2)  Create and Boost a FourVector" << std::endl;
+    std::cout << "3)  Add two FourVectors" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -87,6 +88,18 @@ void pp6day3_menu() {
         destroyFourVector(iV);
       }
     }
+    else if (op == '3')
+    {
+      // Read in the two FourVectors
+      std::cout << "Details for 1st FourVector:" << std::endl;
+      iV = userCreateFourVector();
+      std::cout << "Details for 2nd FourVector:" << std::endl;
+      iU = userCreateFourVector();
+      FourVector sum = (*iV) + (*iU);
+      std::cout << "[result] v = " << sum << std::endl;
+      destroyFourVector(iV);
+      destroyFourVector(iU);
+    }
     else
     {
       std::cerr << "[error] Operation '" << op << "' not recognised."
@@ -103,6 +116,7 @@ void pp6day3_menu() {
                 << std::endl;
       resultCode = 0;
       destroyFourVector(iV);
+      destroyFourVector(iU);
       continue;
     }
   }

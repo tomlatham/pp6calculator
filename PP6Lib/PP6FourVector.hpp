@@ -23,6 +23,15 @@ class FourVector {
   FourVector(const double t, const double x, const double y, const double z)
       : t_(t), x_(x), y_(y), z_(z) {compute_interval();}
 
+  //! Copy-assignment operator
+  FourVector& operator=(const FourVector& other);
+  
+  //! Add a vector to this one
+  FourVector& operator+=(const FourVector& rhs);
+
+  //! Subtract a vector from this one
+  FourVector& operator-=(const FourVector& rhs);
+
   //! return the interval of the vector
   double interval() const;
 
@@ -79,6 +88,14 @@ FourVector* createFourVector(const double t, const double x, const double y,
 
 //! Destroy a FourVector instance, nulling the supplied pointer
 void destroyFourVector(FourVector *&p);
+
+//! Free I/O streaming operators
+std::istream& operator>>(std::istream& in, FourVector& vec);
+std::ostream& operator<<(std::ostream& out, const FourVector& vec);
+
+//! Free arithmetic operators
+FourVector operator+(const FourVector& lhs, const FourVector& rhs);
+FourVector operator-(const FourVector& lhs, const FourVector& rhs);
 
 #endif // PP6FOURVECTOR_HH
 

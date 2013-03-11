@@ -10,6 +10,42 @@ const double FourVector::c(3E8);
 const double FourVector::c2(9E16);
 
 //----------------------------------------------------------------------
+// Member operators
+
+FourVector& FourVector::operator=(const FourVector& other)
+{
+  if ( this != &other ) // Ignore attempts at self-assignment
+  {
+    t_ = other.getT();
+    x_ = other.getX();
+    y_ = other.getY();
+    z_ = other.getZ();
+    s_ = other.interval();
+  }
+  return *this;
+}
+
+FourVector& FourVector::operator+=(const FourVector& rhs)
+{
+  t_ += rhs.getT();
+  x_ += rhs.getX();
+  y_ += rhs.getY();
+  z_ += rhs.getZ();
+  compute_interval();
+  return *this;
+}
+
+FourVector& FourVector::operator-=(const FourVector& rhs)
+{
+  t_ -= rhs.getT();
+  x_ -= rhs.getX();
+  y_ -= rhs.getY();
+  z_ -= rhs.getZ();
+  compute_interval();
+  return *this;
+}
+
+//----------------------------------------------------------------------
 // Member functions
 
 double FourVector::interval() const
@@ -42,7 +78,7 @@ int FourVector::boost_z(const double velocity)
 std::string FourVector::asString() const
 {
   std::ostringstream s;
-  s << "(" << getT() << ", " << getX() << ", " << getY() << ", " << getZ() << ")";
+  s << *this;
   return s.str();
 }
 
@@ -75,5 +111,39 @@ void destroyFourVector(FourVector *&p) {
     delete p;
     p = 0;
   }
+}
+
+//----------------------------------------------------------------------
+// Free operators
+
+std::istream& operator>>(std::istream& in, FourVector& vec) // Could also be a friend function [1]
+{
+  double x(0.0), y(0.0), z(0.0), t(0.0);
+  in >> t >> x >> y >> z;
+  vec.setT(t);
+  vec.setX(x);
+  vec.setY(y);
+  vec.setZ(z);
+  return in;
+}
+
+std::ostream& operator<<(std::ostream& out, const FourVector& vec)
+{
+  out << "(" << vec.getT() << ", " << vec.getX() << ", " << vec.getY() << ", " << vec.getZ() << ")";
+  return out;
+}
+
+FourVector operator+(const FourVector& lhs, const FourVector& rhs)
+{
+  FourVector temp(lhs);
+  temp += rhs;
+  return temp;
+}
+
+FourVector operator-(const FourVector& lhs, const FourVector& rhs)
+{
+  FourVector temp(lhs);
+  temp -= rhs;
+  return temp;
 }
 
