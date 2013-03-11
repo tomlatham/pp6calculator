@@ -33,8 +33,6 @@ void pp6day3_menu() {
   FourVector *iV(0);
   double ivelocity(0.0);
   
-  double oInterval(0.0);
-  
   double resultCode(0); 
   char op('\0');
 
@@ -71,8 +69,7 @@ void pp6day3_menu() {
     {
       // Read in the four vector
       iV = userCreateFourVector();
-      oInterval = interval(iV);
-      std::cout << "[result]: interval = " << oInterval << std::endl;
+      std::cout << "[result]: interval = " << iV->interval() << std::endl;
       destroyFourVector(iV);    
     }
     else if (op == '2')
@@ -83,10 +80,10 @@ void pp6day3_menu() {
       std::cout << "Enter the boost speed along z: ";
       ivelocity = getNumber();
 
-      resultCode = boost_z(iV, ivelocity);
+      resultCode = iV->boost_z(ivelocity);
       if (!resultCode) 
       {
-        std::cout << "[result] v = " << asString(iV) << std::endl;
+        std::cout << "[result] v = " << iV->asString() << std::endl;
         destroyFourVector(iV);
       }
     }
