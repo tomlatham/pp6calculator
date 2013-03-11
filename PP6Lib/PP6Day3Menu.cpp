@@ -5,8 +5,19 @@
 // Standard Library
 #include <iostream>
 
+// This Project
+#include "PP6FourVector.hpp"
+#include "PP6Math.hpp"
+
 void pp6day3_menu() {
   // Declare the variables
+  // Variables for i/o
+  double it(0), ix(0), iy(0), iz(0);
+  double ivelocity(0.0);
+  
+  double oInterval(0.0);
+  double ot(0), ox(0), oy(0), oz(0);
+  
   double resultCode(0); 
   char op('\0');
 
@@ -16,8 +27,8 @@ void pp6day3_menu() {
     std::cout << "PP6Calculator - Day 3 Menu" << std::endl;
     std::cout << "==========================" << std::endl;
     std::cout << "Enter the operation you would like to perform:" << std::endl;
-    std::cout << "1)  Create and Boost a FourVector" << std::endl;
-    std::cout << "2)  Create a FourVector and calculate its interval" << std::endl;
+    std::cout << "1)  Create a FourVector and calculate its interval" << std::endl;
+    std::cout << "2)  Create and Boost a FourVector" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -41,11 +52,46 @@ void pp6day3_menu() {
     }
     else if (op == '1')
     {
-      resultCode = 1;
+      // Read in four values
+      // Ask user for vector components
+      std::cout << "Enter the t-component: ";
+      it = getNumber();
+      std::cout << "Enter the x-component: ";
+      ix = getNumber();
+      std::cout << "Enter the y-component: ";
+      iy = getNumber();
+      std::cout << "Enter the z-component: ";
+      iz = getNumber();
+      
+      oInterval = interval(it, ix, iy, iz);
+
+      std::cout << "[result]: interval = " << oInterval << std::endl;     
     }
     else if (op == '2')
     {
-      resultCode = 1;
+      // Read in four values
+      // Ask user for vector components
+      std::cout << "Enter the t-component: ";
+      it = getNumber();
+      std::cout << "Enter the x-component: ";
+      ix = getNumber();
+      std::cout << "Enter the y-component: ";
+      iy = getNumber();
+      std::cout << "Enter the z-component: ";
+      iz = getNumber();
+      std::cout << "Enter the boost speed along z: ";
+      ivelocity = getNumber();
+
+      resultCode = boost_z(it, ix, iy, iz, ivelocity, ot, ox, oy, oz);
+      if (!resultCode) 
+      {
+        std::cout << "[result] v = ("
+                  << ot << ", "
+                  << ox << ", "
+                  << oy << ", "
+                  << oz << ")" 
+                  << std::endl;
+      }
     }
     else
     {
