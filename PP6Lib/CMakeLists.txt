@@ -15,5 +15,7 @@ add_library(pp6lib STATIC
   PP6Day3Menu.cpp
   PP6FourVector.hpp
   PP6FourVector.cpp
+  PP6ThreeVector.hpp
+  PP6ThreeVector.cpp
   )
 

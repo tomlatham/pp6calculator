@@ -6,8 +6,25 @@
 
 //! FourVector consts for speed of light
 // Set both to 1 if you want natural units
-const double FourVector::c(3E8);
-const double FourVector::c2(9E16);
+const double FourVector::c(1);
+const double FourVector::c2(1);
+
+FourVector::FourVector() : t_(0.0), x_(), s_(0.0)
+{}
+
+FourVector::FourVector(const FourVector& other)
+  : t_(other.getT()), x_(other.getThreeVector()), s_(other.interval())
+{}
+
+FourVector::FourVector(const double t, const double x, const double y, const double z) : t_(t), x_(x, y, z)
+{
+  compute_interval();
+}
+
+FourVector::FourVector(const double t, const ThreeVector& x) : t_(t), x_(x)
+{
+  compute_interval();
+}
 
 //----------------------------------------------------------------------
 // Member operators
@@ -17,9 +34,7 @@ FourVector& FourVector::operator=(const FourVector& other)
   if ( this != &other ) // Ignore attempts at self-assignment
   {
     t_ = other.getT();
-    x_ = other.getX();
-    y_ = other.getY();
-    z_ = other.getZ();
+    x_ = other.getThreeVector();
     s_ = other.interval();
   }
   return *this;
@@ -28,9 +43,7 @@ FourVector& FourVector::operator=(const FourVector& other)
 FourVector& FourVector::operator+=(const FourVector& rhs)
 {
   t_ += rhs.getT();
-  x_ += rhs.getX();
-  y_ += rhs.getY();
-  z_ += rhs.getZ();
+  x_ += rhs.getThreeVector();
   compute_interval();
   return *this;
 }
@@ -38,15 +51,55 @@ FourVector& FourVector::operator+=(const FourVector& rhs)
 FourVector& FourVector::operator-=(const FourVector& rhs)
 {
   t_ -= rhs.getT();
-  x_ -= rhs.getX();
-  y_ -= rhs.getY();
-  z_ -= rhs.getZ();
+  x_ -= rhs.getThreeVector();
+  compute_interval();
+  return *this;
+}
+
+FourVector& FourVector::operator*=(const double rhs)
+{
+  t_ *= rhs;
+  x_ *= rhs;
+  compute_interval();
+  return *this;
+}
+
+FourVector& FourVector::operator/=(const double rhs)
+{
+  t_ /= rhs;
+  x_ /= rhs;
   compute_interval();
   return *this;
 }
 
 //----------------------------------------------------------------------
 // Member functions
+void FourVector::setT(double t)
+{
+  t_ = t;
+  compute_interval();
+}
+
+void FourVector::setThreeVector(const ThreeVector& v)
+{
+  x_ = v;
+  compute_interval();
+}
+
+void FourVector::setX(const double x)
+{
+  x_.setX(x);
+}
+
+void FourVector::setY(const double y)
+{
+  x_.setY(y);
+}
+
+void FourVector::setZ(const double z)
+{
+  x_.setZ(z);
+}
 
 double FourVector::interval() const
 {
@@ -67,9 +120,9 @@ int FourVector::boost_z(const double velocity)
   double gamma = 1.0 / sqrt(1.0 - velocity * velocity / c2);
   
   // Apply boost in z direction - need temp variables due to mixing
-  double z_prime = gamma * ( z_ - velocity * t_);
-  double t_prime = gamma * ( t_ - velocity * z_ / c2);
-  z_ = z_prime;
+  double z_prime = gamma * ( x_.getZ() - velocity * t_);
+  double t_prime = gamma * ( t_ - velocity * x_.getZ() / c2);
+  x_.setZ(z_prime);
   t_ = t_prime;
 
   return 0; // Indicate success
@@ -85,7 +138,7 @@ std::string FourVector::asString() const
 void FourVector::compute_interval()
 {
   // interval s^2 = (ct)^2 - (x^2 + y^2 + z^2)
-  s_ = c2*t_*t_ - (x_*x_ + y_*y_ + z_*z_);        
+  s_ = c2*t_*t_ - x_.length()*x_.length();        
 } 
 
 
@@ -129,7 +182,7 @@ std::istream& operator>>(std::istream& in, FourVector& vec) // Could also be a f
 
 std::ostream& operator<<(std::ostream& out, const FourVector& vec)
 {
-  out << "(" << vec.getT() << ", " << vec.getX() << ", " << vec.getY() << ", " << vec.getZ() << ")";
+  out << "(" << vec.getT() << ", " << vec.getThreeVector() << ")";
   return out;
 }
 
@@ -145,5 +198,31 @@ FourVector operator-(const FourVector& lhs, const FourVector& rhs)
   FourVector temp(lhs);
   temp -= rhs;
   return temp;
+}
+
+FourVector operator*(const FourVector& lhs, const double rhs)
+{
+  FourVector temp(lhs);
+  temp *= rhs;
+  return temp;
+}
+
+FourVector operator*(const double lhs, const FourVector& rhs)
+{
+  FourVector temp(rhs);
+  temp *= lhs;
+  return temp;
+}
+
+FourVector operator/(const FourVector& lhs, const double rhs)
+{
+  FourVector temp(lhs);
+  temp /= rhs;
+  return temp;
+}
+
+double contraction(const FourVector& lhs, const FourVector& rhs)
+{
+  return lhs.getT() * rhs.getT() - lhs.getThreeVector().length() * rhs.getThreeVector().length();
 }
 

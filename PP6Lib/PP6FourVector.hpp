@@ -7,6 +7,9 @@
 // Standard Library
 #include <string>
 
+// This project
+#include "PP6ThreeVector.hpp"
+
 //! FourVector class
 class FourVector {
  public: // we can use access specifiers as many times as we like
@@ -14,14 +17,16 @@ class FourVector {
          // function, e.g. constants/typedefs first, then member functions
          // then member variables
   //! Default constructor
-  FourVector() : t_(0.0), x_(0.0), y_(0.0), z_(0.0), s_(0.0) {}
+  FourVector();
 
   //! Copy Constructor
-  FourVector(const FourVector& other) : t_(other.getT()), x_(other.getX()), y_(other.getY()), z_(other.getZ()), s_(other.interval()) {}
+  FourVector(const FourVector& other);
 
   //! Constructor with values
-  FourVector(const double t, const double x, const double y, const double z)
-      : t_(t), x_(x), y_(y), z_(z) {compute_interval();}
+  FourVector(const double t, const double x, const double y, const double z);
+  FourVector(const double t, const ThreeVector& v);
+
+
 
   //! Copy-assignment operator
   FourVector& operator=(const FourVector& other);
@@ -31,6 +36,12 @@ class FourVector {
 
   //! Subtract a vector from this one
   FourVector& operator-=(const FourVector& rhs);
+
+  //! Multiply components of this vector by a constant
+  FourVector& operator*=(const double rhs);
+  
+  //! Divide components of this vector by a constant
+  FourVector& operator/=(const double rhs);
 
   //! return the interval of the vector
   double interval() const;
@@ -43,15 +54,17 @@ class FourVector {
 
   //! get t, x, y, z components of vector
   double getT() const {return t_;}
-  double getX() const {return x_;}
-  double getY() const {return y_;}
-  double getZ() const {return z_;}
+  const ThreeVector& getThreeVector() const {return x_;}
+  double getX() const {return x_.getX();}
+  double getY() const {return x_.getY();}
+  double getZ() const {return x_.getZ();}
 
   //! set t, x, y, z components of vector
-  void setT(const double t) {t_ = t; compute_interval();}
-  void setX(const double x) {x_ = x; compute_interval();}
-  void setY(const double y) {y_ = y; compute_interval();}
-  void setZ(const double z) {z_ = z; compute_interval();}
+  void setT(const double t); 
+  void setThreeVector(const ThreeVector& v);
+  void setX(const double x);
+  void setY(const double y);
+  void setZ(const double z);
 
  private:
   //! constants, but only needed internally to FourVector
@@ -63,9 +76,7 @@ class FourVector {
  private:
   //! member variables
   double t_;
-  double x_;
-  double y_;
-  double z_;
+  ThreeVector x_;
   double s_; // current interval
 };
 
@@ -96,6 +107,11 @@ std::ostream& operator<<(std::ostream& out, const FourVector& vec);
 //! Free arithmetic operators
 FourVector operator+(const FourVector& lhs, const FourVector& rhs);
 FourVector operator-(const FourVector& lhs, const FourVector& rhs);
+FourVector operator*(const FourVector& lhs, const double rhs);
+FourVector operator*(const double lhs, const FourVector& rhs);
+FourVector operator/(const FourVector& lhs, const double rhs);
+
+double contraction(const FourVector& lhs, const FourVector& rhs);
 
 #endif // PP6FOURVECTOR_HH
 
