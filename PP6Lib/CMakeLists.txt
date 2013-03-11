@@ -19,5 +19,7 @@ add_library(pp6lib STATIC
   PP6ThreeVector.cpp
   PP6Particle.hpp
   PP6Particle.cpp
- )
+  PP6Day3MuonAnalysis.hpp
+  PP6Day3MuonAnalysis.cpp
+  )
 
