@@ -214,9 +214,9 @@ int pp6day2_muonanalysis() {
   // - Loop over mu-/mu+ arrays, calculating invariant masses as we go
   for (int i(0); i < numberOfAntiMuons; ++i) {
     for (int j(0); j < numberOfMuons; ++j) {
-      inv_mass(muonEnergy[i], muonPx[i], muonPy[i], muonPz[i],
-               antimuonEnergy[j], antimuonPx[j], antimuonPy[j], 
-               antimuonPz[j],
+      inv_mass(muonEnergy[j], muonPx[j], muonPy[j], muonPz[j],
+               antimuonEnergy[i], antimuonPx[i], antimuonPy[i], 
+               antimuonPz[i],
                invariantMass[i*numberOfMuons + j]);
       muonPairIndex[i*numberOfMuons + j] = i*numberOfMuons + j;
     }
