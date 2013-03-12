@@ -6,6 +6,7 @@
 #include "PP6Day1Menu.hpp"
 #include "PP6Day2Menu.hpp"
 #include "PP6Day3Menu.hpp"
+#include "PP6Day4Menu.hpp"
 
 //----------------------------------------------------------------------
 // Main program
@@ -24,6 +25,7 @@ int main()
     std::cout << "1)  Basic Mathematics from Day 1" << std::endl;
     std::cout << "2)  Array Operations from Day 2" << std::endl;
     std::cout << "3)  FourVector Operations from Day 3" << std::endl;
+    std::cout << "4)  STL Operations from Day 4" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
 
@@ -56,6 +58,10 @@ int main()
     else if (item == '3')
     {
       pp6day3_menu();
+    }
+    else if (item == '4')
+    {
+      pp6day4_menu();
     }
     else
     {
