@@ -4,6 +4,7 @@
 
 // Standard Library
 #include <iostream>
+#include <vector>
 
 // Third party
 #include "FileReader.hpp"
@@ -27,41 +28,45 @@ int pp6day4_io_pdg() {
               << std::endl;
     return 1;
   } else {
-    // Create variables to read data into
-    std::string particleName("");
-    int particlePdgCode(0);
-    int particleCharge(0);
-    double particleMass(0.0);
+    // Create vectors to store columns
+    std::vector<std::string> particleName;
+    std::vector<int> particlePdgCode;
+    std::vector<int> particleCharge;
+    std::vector<double> particleMass;
 
     // Read and display data
     while (dataBase.nextLine()) {
-      particleName = dataBase.getField<std::string>(1);
+      particleName.push_back(dataBase.getField<std::string>(1));
       if (dataBase.inputFailed()) {
         std::cout << "Could not get field 1 as std::string" << std::endl;
         continue;
       }
 
-      particlePdgCode = dataBase.getField<int>(2);
+      particlePdgCode.push_back(dataBase.getField<int>(2));
       if (dataBase.inputFailed()) {
         std::cout << "Could not get field 2 as int" << std::endl;
         continue;
       }
-      particleCharge = dataBase.getField<int>(3);
+      particleCharge.push_back(dataBase.getField<int>(3));
       if (dataBase.inputFailed()) {
         std::cout << "Could not get field 3 as int" << std::endl;
         continue;
       }
 
-      particleMass = dataBase.getField<double>(4);
+      particleMass.push_back(dataBase.getField<double>(4));
       if (dataBase.inputFailed()) {
         std::cout << "Could not get field 4 as double" << std::endl;
         continue;
       }
+    }
 
-      std::cout << particleName << " "
-                << particlePdgCode << " "
-                << particleCharge << " "
-                << particleMass
+    // present results
+    size_t dbEntries(particleName.size());
+    for (size_t i(0); i < dbEntries; ++i) {
+      std::cout << particleName[i] << " "
+                << particlePdgCode[i] << " "
+                << particleCharge[i] << " "
+                << particleMass[i]
                 << std::endl;
     }
   }
