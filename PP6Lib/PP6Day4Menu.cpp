@@ -61,14 +61,26 @@ int pp6day4_io_pdg() {
     }
 
     // present results
-    size_t dbEntries(particleName.size());
-    for (size_t i(0); i < dbEntries; ++i) {
-      std::cout << particleName[i] << " "
-                << particlePdgCode[i] << " "
-                << particleCharge[i] << " "
-                << particleMass[i]
+    // Iterators
+    std::vector<std::string>::iterator nameIter(particleName.begin());
+    std::vector<std::string>::iterator stopCond(particleName.end());
+
+    // As all the vectors are the same size, we use nameIter and
+    // stopCond to loop, and only need the begin() of the other
+    // vectors
+    std::vector<int>::iterator pdgIter = particlePdgCode.begin();
+    std::vector<int>::iterator chargeIter = particleCharge.begin();
+    std::vector<double>::iterator massIter = particleMass.begin();
+  
+    for ( ; nameIter != stopCond; ++nameIter, 
+         ++pdgIter, ++chargeIter, ++massIter) {
+      std::cout << *nameIter << " "
+                << *pdgIter << " "
+                << *chargeIter << " "
+                << *massIter
                 << std::endl;
     }
+    
   }
 
   return 0;
