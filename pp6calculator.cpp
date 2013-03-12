@@ -23,7 +23,7 @@ int main()
     std::cout << "Choose the operation you would like to perform:" << std::endl;
     std::cout << "1)  Basic Mathematics from Day 1" << std::endl;
     std::cout << "2)  Array Operations from Day 2" << std::endl;
-    std::cout << "3)  FourVector Operations from Day 2" << std::endl;
+    std::cout << "3)  FourVector Operations from Day 3" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
 
