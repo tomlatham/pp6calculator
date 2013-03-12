@@ -5,6 +5,8 @@
 // Standard Library
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 
 // Third party
 #include "FileReader.hpp"
@@ -140,6 +142,43 @@ int pp6day4_check_particleinfo() {
   return 0;
 }
 
+int pp6day4_algorithm_demo() {
+  // Query user for size of array to generate and sort
+  // Restrict it to more than 10 and less than 100
+  size_t s(0);
+  while ((s < 10) || (s > 100)) {
+    std::cout << "Enter size of array to generate/sort [10 <= N <= 100]: ";
+    s = getNumber();
+  }
+
+  // Create a vector to hold the numbers, initializing to zero
+  std::vector<double> v(s,0);
+
+  // Fill the vector with random numbers between 0-1
+  std::generate(v.begin(), v.end(), getRandom);
+
+  // Print unsorted vector:
+  std::cout << "Generated vector:" << std::endl;
+  std::copy(v.begin(), v.end(), std::ostream_iterator<double>(std::cout, "\n"));
+  
+  // Find max/min elements in the vector:
+  std::vector<double>::iterator maxElem = std::max_element(v.begin(), v.end());
+  std::vector<double>::iterator minElem = std::min_element(v.begin(), v.end());
+
+  std::cout << "Max Element = " << *maxElem << std::endl;
+  std::cout << "Min Element = " << *minElem << std::endl;
+
+  // Sort the vector in-place, and output again
+  std::sort(v.begin(), v.end());
+
+  std::cout << "Sorted vector:" << std::endl;
+  std::copy(v.begin(), v.end(), std::ostream_iterator<double>(std::cout, "\n"));
+
+  
+
+  return 0;
+}
+
 void pp6day4_menu() {
   // Declare the variables
   // Variables for i/o
@@ -154,6 +193,7 @@ void pp6day4_menu() {
     std::cout << "Enter the operation you would like to perform:" << std::endl;
     std::cout << "1)  Read and display the PDG Textfile Database" << std::endl;
     std::cout << "2)  Instantiate a ParticleInfo instance and test it" << std::endl;
+    std::cout << "3)  Demonstrate use of STL algorithms to sort a random array" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -182,6 +222,10 @@ void pp6day4_menu() {
     else if (op == '2')
     {
       resultCode = pp6day4_check_particleinfo();
+    }
+    else if (op == '3')
+    {
+      resultCode = pp6day4_algorithm_demo();
     }
     else
     {
