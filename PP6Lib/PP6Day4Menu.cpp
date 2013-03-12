@@ -11,6 +11,7 @@
 
 // This Project
 #include "PP6Math.hpp"
+#include "PP6ParticleInfo.hpp"
 
 //! Operation to read/display the PDG database read in from a .dbt file
 int pp6day4_io_pdg() {
@@ -80,12 +81,64 @@ int pp6day4_io_pdg() {
                 << *massIter
                 << std::endl;
     }
-    
   }
 
   return 0;
 }
 
+int pp6day4_check_particleinfo() {
+  std::string dbtFilename;
+  std::cout << "Enter path to .dbt file for initializing ParticleInfo: ";
+  dbtFilename = getString();
+
+  // Open the ParticleInfo with supplied file
+  ParticleInfo dataBase(dbtFilename);
+
+  // Check it has entries
+  std::cout << "Checking ParticleInfo contains entries... ";
+  if (!dataBase.size()) {
+    std::cout << "fail" << std::endl;
+    return 1;
+  } else {
+    std::cout << "ok" << std::endl;
+  }
+
+  // It must contain mu+ and mu- 
+  std::cout << "Checking ParticleInfo returns correct mu- PDG code... ";
+  if (dataBase.getPDGCode("mu-") != 13) {
+    std::cout << "fail" << std::endl;
+    return 1;
+  } else {
+    std::cout << "ok" << std::endl;
+  }
+
+  std::cout << "Checking ParticleInfo returns correct mu+ PDG code... ";
+  if (dataBase.getPDGCode("mu+") != -13) {
+    std::cout << "fail" << std::endl;
+    return 1;
+  } else {
+    std::cout << "ok" << std::endl;
+  }
+
+  // Check that mu+ and mu- entries return +ve masses
+  std::cout << "Checking ParticleInfo returns +ve mass for mu-... ";
+  if (dataBase.getMassMeV(13) <= 0.0) {
+    std::cout << "fail" << std::endl;
+    return 1;
+  } else {
+    std::cout << "ok" << std::endl;
+  }
+
+  std::cout << "Checking ParticleInfo returns +ve mass for mu+... ";
+  if (dataBase.getMassMeV(-13) <= 0.0) {
+    std::cout << "fail" << std::endl;
+    return 1;
+  } else {
+    std::cout << "ok" << std::endl;
+  }
+
+  return 0;
+}
 
 void pp6day4_menu() {
   // Declare the variables
@@ -100,6 +153,7 @@ void pp6day4_menu() {
     std::cout << "==========================" << std::endl;
     std::cout << "Enter the operation you would like to perform:" << std::endl;
     std::cout << "1)  Read and display the PDG Textfile Database" << std::endl;
+    std::cout << "2)  Instantiate a ParticleInfo instance and test it" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -124,6 +178,10 @@ void pp6day4_menu() {
     else if (op == '1')
     {
       resultCode = pp6day4_io_pdg();
+    }
+    else if (op == '2')
+    {
+      resultCode = pp6day4_check_particleinfo();
     }
     else
     {
