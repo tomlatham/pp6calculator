@@ -1,4 +1,3 @@
-#include <sstream>
 #include "FileReader.hpp"
 
 FileReader::FileReader(const char* filename)

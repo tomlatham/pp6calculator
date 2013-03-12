@@ -29,6 +29,9 @@ target_link_libraries(pp6calculator pp6lib FileReader)
 # - Install pp6calculator to the bin subdirectory of CMAKE_INSTALL_PREFIX
 install(TARGETS pp6calculator DESTINATION bin)
 
+# - Copy PDG text DB to build directory so it's immediately available
+configure_file(pdg.dbt ${PROJECT_BINARY_DIR}/pdg.dbt COPYONLY)
+
 # - Package pp6calculator sources and executable
 include(CPack)
 
