@@ -7,6 +7,7 @@
 #include "PP6Day2Menu.hpp"
 #include "PP6Day3Menu.hpp"
 #include "PP6Day4Menu.hpp"
+#include "PP6Day5Menu.hpp"
 
 //----------------------------------------------------------------------
 // Main program
@@ -26,6 +27,7 @@ int main()
     std::cout << "2)  Array Operations from Day 2" << std::endl;
     std::cout << "3)  FourVector Operations from Day 3" << std::endl;
     std::cout << "4)  STL Operations from Day 4" << std::endl;
+    std::cout << "5)  Dynamic Polymorphism Operations from Day 5" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
 
@@ -62,6 +64,10 @@ int main()
     else if (item == '4')
     {
       pp6day4_menu();
+    }
+    else if (item == '5')
+    {
+      pp6day5_menu();
     }
     else
     {
