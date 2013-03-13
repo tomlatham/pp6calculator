@@ -14,6 +14,7 @@
 // This Project
 #include "PP6Math.hpp"
 #include "PP6ParticleInfo.hpp"
+#include "PP6Day4MuonAnalysis.hpp"
 
 //! Operation to read/display the PDG database read in from a .dbt file
 int pp6day4_io_pdg() {
@@ -174,8 +175,6 @@ int pp6day4_algorithm_demo() {
   std::cout << "Sorted vector:" << std::endl;
   std::copy(v.begin(), v.end(), std::ostream_iterator<double>(std::cout, "\n"));
 
-  
-
   return 0;
 }
 
@@ -194,6 +193,7 @@ void pp6day4_menu() {
     std::cout << "1)  Read and display the PDG Textfile Database" << std::endl;
     std::cout << "2)  Instantiate a ParticleInfo instance and test it" << std::endl;
     std::cout << "3)  Demonstrate use of STL algorithms to sort a random array" << std::endl;
+    std::cout << "4)  Analyse input file for muon pairs (Day 4 version)" << std::endl;
     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
@@ -226,6 +226,10 @@ void pp6day4_menu() {
     else if (op == '3')
     {
       resultCode = pp6day4_algorithm_demo();
+    }
+    else if (op == '4')
+    {
+      resultCode = pp6day4_muonanalysis();
     }
     else
     {

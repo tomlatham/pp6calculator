@@ -25,5 +25,7 @@ add_library(pp6lib STATIC
   PP6Day4Menu.cpp
   PP6ParticleInfo.hpp
   PP6ParticleInfo.cpp
+  PP6Day4MuonAnalysis.hpp
+  PP6Day4MuonAnalysis.cpp
   )
 
