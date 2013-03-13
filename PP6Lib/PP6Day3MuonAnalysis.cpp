@@ -100,7 +100,7 @@ int countParticles(const std::string& inputFile, const std::string& particle,
 EventArray* createParticles(const std::string& inputFile,
                             const size_t knownNumber, 
                             const std::string& particle, 
-                            const double mass, const std::string& runId) {
+                            const double /*mass*/, const std::string& runId) {
   // Create a filereader and check its validity
   FileReader counter(inputFile);
   if (!counter.isValid()) {
@@ -179,7 +179,7 @@ EventArray* createParticles(const std::string& inputFile,
         // EventArray
         pdgCode = getPDGCode(particle);
         (pEA->ids)[currentParticle] = eventId;
-        (pEA->particles)[currentParticle] = Particle(pdgCode, mass, px, py, pz);
+        (pEA->particles)[currentParticle] = Particle(pdgCode, px, py, pz);
         ++currentParticle;
       }
     }

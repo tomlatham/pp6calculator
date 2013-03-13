@@ -1,16 +1,18 @@
 //! \file   PP6ParticleInfo.hpp
 //! \author Ben Morgan
 //! \brief  Declaration of PP6 ParticleInfo class
-#ifndef PARTICLEINFO_HPP
-#define PARTICLEINFO_HPP
+#ifndef PP6PARTICLEINFO_HPP
+#define PP6PARTICLEINFO_HPP
 
 #include <map>
 #include <string>
 
+// ParticleInfo database, implemented using the singleton design pattern
+
 class ParticleInfo {
  public:
-  ParticleInfo(std::string dbFile); // default ctor - impl. in source file
-  ~ParticleInfo() {} // dtor
+  // The instance accessor static member function
+  static const ParticleInfo& Instance( const std::string& dbFile = std::string("pdg.dbt") );
 
   // Normal member functions
   size_t size() const;
@@ -21,10 +23,15 @@ class ParticleInfo {
   double getMassGeV(const int id) const;
 
  private:
+  // The private ctor, dtor and unimplemented copy ctor and copy assignment operator
+  explicit ParticleInfo( const std::string& dbFile ); // ctor - impl. in source file
   ParticleInfo(const ParticleInfo&); // copy ctor - do not implement
+  ~ParticleInfo() {} // dtor
   ParticleInfo& operator=(const ParticleInfo&); // copy assignment op - do not implement
 
- private:
+  // The instance member variable
+  static ParticleInfo* theInstance;
+
   // Normal member variables
   std::map<std::string, int> name_to_id;
   std::map<int, std::string> id_to_name;
@@ -32,4 +39,4 @@ class ParticleInfo {
   std::map<int, double> id_to_mass;
 };
 
-#endif
+#endif // PP6PARTICLEINFO_HPP

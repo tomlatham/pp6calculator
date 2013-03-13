@@ -95,7 +95,7 @@ int pp6day4_check_particleinfo() {
   dbtFilename = getString();
 
   // Open the ParticleInfo with supplied file
-  ParticleInfo dataBase(dbtFilename);
+  const ParticleInfo& dataBase = ParticleInfo::Instance(dbtFilename);
 
   // Check it has entries
   std::cout << "Checking ParticleInfo contains entries... ";

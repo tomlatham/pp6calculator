@@ -96,7 +96,6 @@ bool read_run_data(const std::string& runFile, const ParticleInfo& db,
 
   // Variable for use in the loop
   int pdgCode(0);
-  double pdgMass(0.0);
 
   while (reader.nextLine()) {
     eventId = reader.getField<int>(1);
@@ -149,10 +148,9 @@ bool read_run_data(const std::string& runFile, const ParticleInfo& db,
 
     // If all the data's been read in, we can fill the map.
     pdgCode = db.getPDGCode(name);
-    pdgMass = db.getMassGeV(pdgCode);
 
     // Create the particle and add it to the map.
-    Particle tmp(pdgCode, pdgMass, px, py, pz);
+    Particle tmp(pdgCode, px, py, pz);
     runTable[run].push_back(InvMass::Event(eventId,tmp));
   }
 
@@ -166,7 +164,7 @@ int pp6day4_muonanalysis() {
   std::cout << "Enter path to .dbt file for initializing ParticleInfo: ";
   dbtFilename = getString();
 
-  ParticleInfo particleDB(dbtFilename);
+  const ParticleInfo& particleDB = ParticleInfo::Instance(dbtFilename);
   std::cout << "Checking ParticleInfo contains entries... ";
   if (!particleDB.size()) {
     std::cout << "fail" << std::endl;

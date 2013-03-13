@@ -3,7 +3,18 @@
 #include "PP6ParticleInfo.hpp"
 #include "FileReader.hpp"
 
-ParticleInfo::ParticleInfo(std::string dbFile)
+// allocate and initialise the static member pointer
+ParticleInfo* ParticleInfo::theInstance = 0;
+
+const ParticleInfo& ParticleInfo::Instance( const std::string& dbFile )
+{
+  if ( theInstance == 0 ) {
+    theInstance = new ParticleInfo( dbFile );
+  }
+  return *theInstance;
+}
+
+ParticleInfo::ParticleInfo( const std::string& dbFile)
 {
   // Open a FileReader for the supplied db file
   FileReader dbReader(dbFile);
