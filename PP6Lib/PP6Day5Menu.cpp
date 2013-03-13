@@ -10,6 +10,7 @@
 #include "PP6Math.hpp"
 #include "PP6ParticleInfo.hpp"
 #include "PP6TwoBodyGenerator.hpp"
+#include "PP6ThreeBodyGenerator.hpp"
 
 bool initialize_database() {
   // As ParticleInfo is a singleton, we only need to initialize it once
@@ -36,13 +37,34 @@ bool initialize_database() {
   return !dbIsUninitialized;
 }
 
-
 int pp6day5_test_twobodygenerator() {
   if (!initialize_database()) return 1;
 
   // Create generator
   TwoBodyGenerator generator("B0", "K+", "pi-");
-  int b0PDG = ParticleInfo::Instance().getPDGCode("B0");
+  int dMinusPDG = ParticleInfo::Instance().getPDGCode("B0");
+  double expectedMass = ParticleInfo::Instance().getMassGeV(dMinusPDG);
+  // Loop, generate, calculate invariant mass of products and print
+  // this and products
+  for (int i(0); i < 50; ++i) {
+    std::cout << "Iteration " << i << std::endl;
+    std::vector<Particle> decayProducts = generator.generate(0.56);
+    double invMass = calculate_invariant_mass(decayProducts);
+    std::copy(decayProducts.begin(), decayProducts.end(),
+              std::ostream_iterator<Particle>(std::cout, "\n"));
+    std::cout << "Invariant Mass = " << invMass 
+             << " (Expected : " << expectedMass <<")"
+             << std::endl << std::endl;
+  }
+  return 0;
+}
+
+int pp6day5_test_threebodygenerator() {
+  if (!initialize_database()) return 1;
+
+  // Create generator
+  ThreeBodyGenerator generator("D-", "K+", "pi-", "pi-");
+  int b0PDG = ParticleInfo::Instance().getPDGCode("D-");
   double expectedMass = ParticleInfo::Instance().getMassGeV(b0PDG);
   // Loop, generate, calculate invariant mass of products and print
   // this and products
@@ -59,6 +81,7 @@ int pp6day5_test_twobodygenerator() {
   return 0;
 }
 
+
 void pp6day5_menu() {
   // Declare the variables
   // Variables for i/o
@@ -72,7 +95,8 @@ void pp6day5_menu() {
     std::cout << "==========================" << std::endl;
     std::cout << "Enter the operation you would like to perform:" << std::endl;
     std::cout << "1)  Test TwoBodyGenerator with 50 B_0->K+pi- decays" << std::endl;
-    std::cout << "q)  Quit" << std::endl;
+    std::cout << "2)  Test ThreeBodyGenerator with 50 D-->K+pi-pi- decays" << std::endl;
+     std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
     std::cin >> op;
@@ -96,6 +120,10 @@ void pp6day5_menu() {
     else if (op == '1')
     {
       resultCode = pp6day5_test_twobodygenerator();
+    }
+    else if (op == '2')
+    {
+      resultCode = pp6day5_test_threebodygenerator();
     }
     else
     {

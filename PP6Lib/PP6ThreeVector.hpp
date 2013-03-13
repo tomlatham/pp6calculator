@@ -60,6 +60,11 @@ class ThreeVector {
   void setR(const double r);
   void setTheta(const double theta);
   void setPhi(const double phi);
+  
+  //! Rotate vector around an axis
+  void rotateX(const double angle);
+  void rotateY(const double angle);
+  void rotateZ(const double angle);
 
  private:
   //! recompute interval whenever components change

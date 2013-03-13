@@ -32,5 +32,9 @@ add_library(pp6lib STATIC
   PP6Day5Menu.cpp
   PP6TwoBodyGenerator.hpp
   PP6TwoBodyGenerator.cpp
+  PP6ThreeBodyKinematics.hpp
+  PP6ThreeBodyKinematics.cpp
+  PP6ThreeBodyGenerator.hpp
+  PP6ThreeBodyGenerator.cpp
   )
 

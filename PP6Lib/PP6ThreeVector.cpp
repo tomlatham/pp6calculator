@@ -151,6 +151,30 @@ void ThreeVector::setPhi(const double phi)
   compute_length();
 }
 
+void ThreeVector::rotateX(const double angle)
+{
+  const double oldy = y_;
+  const double oldz = z_;
+  y_ = cos(angle)*oldy - sin(angle)*oldz;
+  z_ = sin(angle)*oldy + cos(angle)*oldz;
+}
+
+void ThreeVector::rotateY(const double angle)
+{
+  const double oldx = x_;
+  const double oldz = z_;
+  z_ = cos(angle)*oldz - sin(angle)*oldx;
+  x_ = sin(angle)*oldz + cos(angle)*oldx;
+}
+
+void ThreeVector::rotateZ(const double angle)
+{
+  const double oldx = x_;
+  const double oldy = y_;
+  x_ = cos(angle)*oldx - sin(angle)*oldy;
+  y_ = sin(angle)*oldx + cos(angle)*oldy;
+}
+
 void ThreeVector::compute_length()
 {
   l_ = sqrt(x_*x_ + y_*y_ + z_*z_);
