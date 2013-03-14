@@ -4,6 +4,7 @@
 
 // Standard Library
 #include <iostream>
+#include <algorithm>
 #include <iterator>
 
 // This Project
@@ -11,6 +12,7 @@
 #include "PP6ParticleInfo.hpp"
 #include "PP6TwoBodyGenerator.hpp"
 #include "PP6ThreeBodyGenerator.hpp"
+#include "FileReader.hpp"
 
 bool initialize_database() {
   // As ParticleInfo is a singleton, we only need to initialize it once
@@ -35,6 +37,10 @@ bool initialize_database() {
   }
 
   return !dbIsUninitialized;
+}
+
+void destroyGenerator(EventGenerator* p) {
+  if (p) delete p;
 }
 
 int pp6day5_test_twobodygenerator() {
@@ -81,6 +87,76 @@ int pp6day5_test_threebodygenerator() {
   return 0;
 }
 
+int pp6day5_test_dynamicgeneration() {
+  if (!initialize_database()) return 1;
+
+  // Create generators from user supplied text file
+  std::string decayTableFile;
+  std::cout << "Enter path to .decaytable file for loading EventGenerators: ";
+  decayTableFile = getString();
+
+  FileReader reader(decayTableFile);
+  if (!reader.isValid()) {
+    std::cerr << "[pp6day5_test_dynamicgeneration:error] "
+              << decayTableFile
+              << " is not a valid file"
+              << std::endl;
+    return 1;
+  }
+
+  // Variables for reading data
+  typedef std::vector<EventGenerator*> EGCollection;
+  EGCollection generators;
+  std::string mother;
+  std::string daug1;
+  std::string daug2;
+  std::string daug3;
+
+  while (reader.nextLine()) {
+    mother = reader.getField<std::string>(1);
+    if (reader.inputFailed()) continue;
+
+    daug1 = reader.getField<std::string>(2);
+    if (reader.inputFailed()) continue;
+
+    daug2 = reader.getField<std::string>(3);
+    if (reader.inputFailed()) continue;
+
+    daug3 = reader.getField<std::string>(4);
+    if (reader.inputFailed()) {
+      // This is a two body decay
+      generators.push_back(new TwoBodyGenerator(mother, daug1, daug2));
+      continue;
+    } else {
+      // It's three body and we can do no more...
+      generators.push_back(new ThreeBodyGenerator(mother, daug1, daug2, 
+                                                  daug3));
+    }
+  }
+
+  // For each generator, generate a decay and print the products and
+  // invariant mass to screen
+  typedef std::vector<Particle> EGProducts;
+  EGCollection::const_iterator iter = generators.begin();
+  EGCollection::const_iterator end = generators.end();
+
+  for ( ; iter != end; ++iter) {
+    EGProducts decayProducts = (*iter)->generate(0.56);
+    double invmass = calculate_invariant_mass(decayProducts);
+    std::cout << "Generator " << *iter << std::endl;
+    std::copy(decayProducts.begin(), decayProducts.end(),
+              std::ostream_iterator<EGProducts::value_type>(std::cout, "\n"));
+    std::cout << "Invariant Mass = " << invmass << std::endl << std::endl;
+  }
+
+  // Iterate through the generator container and delete each element
+  // We still clear the collection so that pointers can no longer be 
+  // accessed
+  std::for_each(generators.begin(), generators.end(), destroyGenerator);
+  generators.clear();
+
+  return 0;
+}
 
 void pp6day5_menu() {
   // Declare the variables
@@ -96,7 +172,8 @@ void pp6day5_menu() {
     std::cout << "Enter the operation you would like to perform:" << std::endl;
     std::cout << "1)  Test TwoBodyGenerator with 50 B_0->K+pi- decays" << std::endl;
     std::cout << "2)  Test ThreeBodyGenerator with 50 D-->K+pi-pi- decays" << std::endl;
-     std::cout << "q)  Quit" << std::endl;
+    std::cout << "3)  Test Dynamic Dispatch to collection of EventGenerators" << std::endl;
+    std::cout << "q)  Quit" << std::endl;
     std::cout << ">> ";
     
     std::cin >> op;
@@ -124,6 +201,10 @@ void pp6day5_menu() {
     else if (op == '2')
     {
       resultCode = pp6day5_test_threebodygenerator();
+    }
+    else if (op == '3')
+    {
+      resultCode = pp6day5_test_dynamicgeneration();
     }
     else
     {

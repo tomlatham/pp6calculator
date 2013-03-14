@@ -32,6 +32,12 @@ install(TARGETS pp6calculator DESTINATION bin)
 # - Copy PDG text DB to build directory so it's immediately available
 configure_file(pdg.dbt ${PROJECT_BINARY_DIR}/pdg.dbt COPYONLY)
 
+# - Copy .decaytable to build directory so it's immediately available
+configure_file(pp6decays.decaytable 
+  ${PROJECT_BINARY_DIR}/pp6decays.decaytable COPYONLY
+  )
+
+
 # - Package pp6calculator sources and executable
 include(CPack)
 
