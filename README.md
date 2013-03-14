@@ -13,6 +13,7 @@ pp6calculator is distributed under the terms of the Boost Software License.
 
 News
 ----
+- 14/03/2013 : Day 5 Exercise Solutions Added
 - 12/03/2013 : Day 4 Homework Solution Added
 - 12/03/2013 : Day 4 Exercise Solutions Added
 - 11/03/2013 : Day 3 Homework Solution Added
