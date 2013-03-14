@@ -12,9 +12,13 @@ if(CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "-std=c++98 -pedantic-errors -Wall -Wextra -Werror -Wfatal-errors -Wwrite-strings -Woverloaded-virtual -fno-nonansi-builtins -fno-gnu-keywords -fstrict-aliasing")
 endif()
 
+# - Need Boost for shared_ptr
+find_package(Boost 1.48 REQUIRED)
+
 # - Tell compiler where to find headers
 include_directories(FileReader)
 include_directories(PP6Lib)
+include_directories(${Boost_INCLUDE_DIRS})
 
 # - Add the PP6Lib and FileReader libraries
 add_subdirectory(PP6Lib)

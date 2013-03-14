@@ -18,7 +18,9 @@ class TwoBodyGenerator : public EventGenerator {
   TwoBodyGenerator(const int mother_code, const int daughter1_code, 
                    const int daughter2_code);
 
-  virtual ~TwoBodyGenerator() {}
+  virtual ~TwoBodyGenerator() {
+    std::cout << "TwoBodyGenerator::~TwoBodyGenerator(" << this << ")" << std::endl;
+  }
 
   // Member function
   virtual std::vector<Particle> generate( const double mother_beta_z ) const;

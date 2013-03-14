@@ -7,6 +7,9 @@
 #include <algorithm>
 #include <iterator>
 
+// Third Party
+#include <boost/shared_ptr.hpp>
+
 // This Project
 #include "PP6Math.hpp"
 #include "PP6ParticleInfo.hpp"
@@ -37,10 +40,6 @@ bool initialize_database() {
   }
 
   return !dbIsUninitialized;
-}
-
-void destroyGenerator(EventGenerator* p) {
-  if (p) delete p;
 }
 
 int pp6day5_test_twobodygenerator() {
@@ -105,7 +104,8 @@ int pp6day5_test_dynamicgeneration() {
   }
 
   // Variables for reading data
-  typedef std::vector<EventGenerator*> EGCollection;
+  typedef boost::shared_ptr<EventGenerator> EGPtr;
+  typedef std::vector<EGPtr> EGCollection;
   EGCollection generators;
   std::string mother;
   std::string daug1;
@@ -125,12 +125,13 @@ int pp6day5_test_dynamicgeneration() {
     daug3 = reader.getField<std::string>(4);
     if (reader.inputFailed()) {
       // This is a two body decay
-      generators.push_back(new TwoBodyGenerator(mother, daug1, daug2));
+      EGPtr ptr(new TwoBodyGenerator(mother, daug1, daug2));
+      generators.push_back(ptr);
       continue;
     } else {
       // It's three body and we can do no more...
-      generators.push_back(new ThreeBodyGenerator(mother, daug1, daug2, 
-                                                  daug3));
+      EGPtr ptr(new ThreeBodyGenerator(mother, daug1, daug2, daug3));
+      generators.push_back(ptr);
     }
   }
 
@@ -148,12 +149,6 @@ int pp6day5_test_dynamicgeneration() {
               std::ostream_iterator<EGProducts::value_type>(std::cout, "\n"));
     std::cout << "Invariant Mass = " << invmass << std::endl << std::endl;
   }
-
-  // Iterate through the generator container and delete each element
-  // We still clear the collection so that pointers can no longer be 
-  // accessed
-  std::for_each(generators.begin(), generators.end(), destroyGenerator);
-  generators.clear();
 
   return 0;
 }

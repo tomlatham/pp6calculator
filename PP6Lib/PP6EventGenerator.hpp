@@ -6,10 +6,13 @@
 
 #include "PP6Particle.hpp"
 #include <vector>
+#include <iostream>
 
 class EventGenerator {
  public:
-  virtual ~EventGenerator() {}
+  virtual ~EventGenerator() {
+    std::cout << "EventGenerator::~EventGenerator(" << this << ")" << std::endl;
+  }
   virtual std::vector<Particle> generate(const double mother_pz) const = 0;
 };
 

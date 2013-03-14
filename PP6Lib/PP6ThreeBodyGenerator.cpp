@@ -46,6 +46,7 @@ ThreeBodyGenerator::ThreeBodyGenerator(const std::string& mother, const std::str
 ThreeBodyGenerator::~ThreeBodyGenerator()
 {
   delete kinematics_;  kinematics_ = 0;
+  std::cout << "ThreeBodyGenerator::~ThreeBodyGenerator(" << this << ")" << std::endl;
 }
 
 void ThreeBodyGenerator::checkValidity()
