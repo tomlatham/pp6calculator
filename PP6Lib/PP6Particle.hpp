@@ -56,6 +56,7 @@ class Particle {
 };
 
 std::ostream& operator<<( std::ostream& out, const Particle& particle );
+std::istream& operator>>( std::istream& out, Particle& particle );
 
 double calculate_invariant_mass(const Particle& first, const Particle& second);
 double calculate_invariant_mass(const std::vector<Particle>& particles);

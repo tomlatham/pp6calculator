@@ -41,6 +41,12 @@ configure_file(pp6decays.decaytable
   ${PROJECT_BINARY_DIR}/pp6decays.decaytable COPYONLY
   )
 
+# - Copy list of particles text to build directory so it's immediately available
+configure_file(particles.dat ${PROJECT_BINARY_DIR}/particles.dat COPYONLY)
+
+# - Copy list of cuts to build directory so it's immediately available
+configure_file(cuts.dat ${PROJECT_BINARY_DIR}/cuts.dat COPYONLY)
+
 
 # - Package pp6calculator sources and executable
 include(CPack)

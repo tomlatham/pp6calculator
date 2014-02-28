@@ -30,6 +30,14 @@ add_library(pp6lib STATIC
   PP6EventGenerator.hpp
   PP6Day5Menu.hpp
   PP6Day5Menu.cpp
+  PP6Cut.hpp
+  PP6Cut.cpp
+  PP6EnergyCut.hpp
+  PP6EnergyCut.cpp
+  PP6MassCut.hpp
+  PP6MassCut.cpp
+  PP6MomentumCut.hpp
+  PP6MomentumCut.cpp
   PP6TwoBodyGenerator.hpp
   PP6TwoBodyGenerator.cpp
   PP6ThreeBodyKinematics.hpp

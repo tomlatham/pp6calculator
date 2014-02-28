@@ -172,7 +172,8 @@ void destroyFourVector(FourVector *&p) {
 std::istream& operator>>(std::istream& in, FourVector& vec) // Could also be a friend function [1]
 {
   double x(0.0), y(0.0), z(0.0), t(0.0);
-  in >> t >> x >> y >> z;
+  std::string dummy;
+  in >> dummy >> t >> dummy >> dummy >> x >> dummy >> y >> dummy >> z >> dummy >> dummy;
   vec.setT(t);
   vec.setX(x);
   vec.setY(y);
@@ -182,7 +183,7 @@ std::istream& operator>>(std::istream& in, FourVector& vec) // Could also be a f
 
 std::ostream& operator<<(std::ostream& out, const FourVector& vec)
 {
-  out << "(" << vec.getT() << ", " << vec.getThreeVector() << ")";
+  out << "( " << vec.getT() << " , " << vec.getThreeVector() << " )";
   return out;
 }
 

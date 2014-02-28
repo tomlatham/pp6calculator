@@ -1,0 +1,3 @@
+mass GreaterThan 0.4
+energy Range 2.0 2.5
+momentum LessThan 2.1

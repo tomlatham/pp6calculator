@@ -235,7 +235,7 @@ std::istream& operator>>(std::istream& in, ThreeVector& vec)
 
 std::ostream& operator<<(std::ostream& out, const ThreeVector& vec)
 {
-  out << "(" << vec.getX() << ", " << vec.getY() << ", " << vec.getZ() << ")";
+  out << "( " << vec.getX() << " , " << vec.getY() << " , " << vec.getZ() << " )";
   return out;
 }
 

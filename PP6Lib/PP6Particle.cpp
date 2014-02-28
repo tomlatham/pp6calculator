@@ -129,6 +129,18 @@ std::ostream& operator<<( std::ostream& out, const Particle& particle )
   return out;
 }
 
+std::istream& operator>>( std::istream& in, Particle& particle )
+{
+  std::string name;
+  std::string dummy;
+  FourVector p4;
+  in >> name >> dummy >> p4;
+  int pdg_code = ParticleInfo::Instance().getPDGCode( name );
+  particle.setPDGCode( pdg_code );
+  particle.setThreeMomentum( p4.getThreeVector() );
+  return in;
+}
+
 double calculate_invariant_mass(const Particle& first, const Particle& second)
 {
   const FourVector& p1 = first.getFourMomentum();
