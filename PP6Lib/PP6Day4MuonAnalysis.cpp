@@ -3,6 +3,7 @@
 #include "PP6Day4MuonAnalysis.hpp"
 
 // Standard Library
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <map>
