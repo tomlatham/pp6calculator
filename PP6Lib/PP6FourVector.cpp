@@ -171,13 +171,12 @@ void destroyFourVector(FourVector *&p) {
 
 std::istream& operator>>(std::istream& in, FourVector& vec) // Could also be a friend function [1]
 {
-  double x(0.0), y(0.0), z(0.0), t(0.0);
+  double t(0.0);
+  ThreeVector p3;
   std::string dummy;
-  in >> dummy >> t >> dummy >> dummy >> x >> dummy >> y >> dummy >> z >> dummy >> dummy;
+  in >> dummy >> t >> dummy >> p3 >> dummy;
   vec.setT(t);
-  vec.setX(x);
-  vec.setY(y);
-  vec.setZ(z);
+  vec.setThreeVector(p3);
   return in;
 }
 
